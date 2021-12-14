@@ -1,32 +1,38 @@
 package bo.edu.uagrm.ficct.inf310.ed202102.arboles;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
 
-public class ArbolMViasBusqueda<K extends Comparable <K>, V> implements IArbolBusqueda<K, V> {
+public class ArbolMViasBusqueda<K extends Comparable<K>, V> implements IArbolBusqueda<K, V> {
 
     protected NodoMVias<K, V> raiz;
     protected int orden;
     protected static final int POSICION_NO_VALIDA = -1;
     protected static final int ORDEN_MINIMO = 3;
+
     //1
     public ArbolMViasBusqueda() {
         this.orden = ArbolMViasBusqueda.ORDEN_MINIMO;
     }
+
     //2
-    public ArbolMViasBusqueda(int ordenDelArbol) throws ExceptionOrdenNoValido{
+    public ArbolMViasBusqueda(int ordenDelArbol) throws ExceptionOrdenNoValido {
         if (ordenDelArbol < ArbolMViasBusqueda.ORDEN_MINIMO) {
             throw new ExceptionOrdenNoValido();
         }
         this.orden = ordenDelArbol;
     }
+
     //5
     @Override
     public void insertar(K claveAInsertar, V valorAInsertar) throws NullPointerException {
-        if (claveAInsertar == (K)NodoMVias.datoVacio()) {
+        if (claveAInsertar == (K) NodoMVias.datoVacio()) {
             throw new NullPointerException("No se permiten insertar claves nulas");
         }
 
-        if (valorAInsertar == (V)NodoMVias.datoVacio()) {
+        if (valorAInsertar == (V) NodoMVias.datoVacio()) {
             throw new NullPointerException("No se permiten insertar valores nulos");
         }
 
@@ -35,8 +41,8 @@ public class ArbolMViasBusqueda<K extends Comparable <K>, V> implements IArbolBu
             return;
         }
 
-        NodoMVias<K ,V> nodoActual = this.raiz;
-        while(!NodoMVias.esNodoVacio(nodoActual)) {
+        NodoMVias<K, V> nodoActual = this.raiz;
+        while (!NodoMVias.esNodoVacio(nodoActual)) {
             int posicionDeClaveAInsertar = this.getPosicionDeClave(nodoActual, claveAInsertar);
             if (posicionDeClaveAInsertar != ArbolMViasBusqueda.POSICION_NO_VALIDA) {
                 nodoActual.setValor(posicionDeClaveAInsertar, valorAInsertar);
@@ -64,8 +70,9 @@ public class ArbolMViasBusqueda<K extends Comparable <K>, V> implements IArbolBu
             nodoActual = nodoActual.getHijo(posicionPorDondeBajar);
         }//fin while
     }
+
     //5.1
-    protected int getPosicionDeClave(NodoMVias<K ,V> nodoActual, K claveABuscar) {
+    protected int getPosicionDeClave(NodoMVias<K, V> nodoActual, K claveABuscar) {
         for (int i = 0; i < nodoActual.cantidadDeClavesNoVacias(); i++) {
             K claveActual = nodoActual.getClave(i);
             if (claveABuscar.compareTo(claveActual) == 0) {
@@ -74,8 +81,9 @@ public class ArbolMViasBusqueda<K extends Comparable <K>, V> implements IArbolBu
         }
         return ArbolMViasBusqueda.POSICION_NO_VALIDA;
     }
+
     //5.2
-    protected int getPosicionPorDondeBajar(NodoMVias<K ,V> nodoActual, K claveABuscar) {
+    protected int getPosicionPorDondeBajar(NodoMVias<K, V> nodoActual, K claveABuscar) {
         for (int i = 0; i < nodoActual.cantidadDeClavesNoVacias(); i++) {
             K claveActual = nodoActual.getClave(i);
             if (claveABuscar.compareTo(claveActual) < 0) {
@@ -84,12 +92,13 @@ public class ArbolMViasBusqueda<K extends Comparable <K>, V> implements IArbolBu
         }
         return this.orden - 1;
     }
+
     //5.3
     //Precondición
     // 1. Debe existir al menos un dato en el nodo
     // 2. El nodo no debe estar lleno
     // 3. La última posición del nodo no debe tener un dato
-    protected void insertarClaveYValorEnNodo(NodoMVias<K,V> nodoActual, K claveAInsertar, V valorAInsertar) {
+    protected void insertarClaveYValorEnNodo(NodoMVias<K, V> nodoActual, K claveAInsertar, V valorAInsertar) {
         int posicionDondeInsertar = getPosicionDondeInsertar(nodoActual, claveAInsertar);
         int posicionActual = nodoActual.cantidadDeClavesNoVacias();
         while (posicionActual > posicionDondeInsertar) {
@@ -102,6 +111,7 @@ public class ArbolMViasBusqueda<K extends Comparable <K>, V> implements IArbolBu
         nodoActual.setClave(posicionDondeInsertar, claveAInsertar);
         nodoActual.setValor(posicionDondeInsertar, valorAInsertar);
     }
+
     //5.4
     protected int getPosicionDondeInsertar(NodoMVias<K, V> nodoActual, K claveAInsertar) {
         for (int i = 0; i < nodoActual.cantidadDeClavesNoVacias(); i++) {
@@ -112,6 +122,7 @@ public class ArbolMViasBusqueda<K extends Comparable <K>, V> implements IArbolBu
         }
         return nodoActual.cantidadDeClavesNoVacias();
     }
+
     //10
     @Override
     public V eliminar(K claveAEliminar) throws ExceptionClaveNoExiste {
@@ -148,7 +159,7 @@ public class ArbolMViasBusqueda<K extends Comparable <K>, V> implements IArbolBu
                 V valorAsociadoAClaveDeReemplazo = this.buscar(claveDeReemplazo);
 
                 nodoActual = eliminar(nodoActual, claveDeReemplazo);
-                nodoActual.setClave(i , claveDeReemplazo);
+                nodoActual.setClave(i, claveDeReemplazo);
                 nodoActual.setValor(i, valorAsociadoAClaveDeReemplazo);
                 return nodoActual;
             }
@@ -163,14 +174,16 @@ public class ArbolMViasBusqueda<K extends Comparable <K>, V> implements IArbolBu
         nodoActual.setHijo(orden - 1, supuestoHijoNuevo);
         return nodoActual;
     }
+
     //10.4
     private K buscarClavePredecesoraInOrden(NodoMVias<K, V> nodoActual, int posicionActual) {
         List<K> recorrido = new LinkedList<>();
         predecesorInorden(nodoActual, recorrido, posicionActual);
         return recorrido.get(0);
     }
+
     //10.4.1
-    private void predecesorInorden(NodoMVias<K,V> nodoActual, List<K> recorrido, int posicionActual) {
+    private void predecesorInorden(NodoMVias<K, V> nodoActual, List<K> recorrido, int posicionActual) {
         if (NodoMVias.esNodoVacio(nodoActual)) {
             return;
         }
@@ -194,8 +207,9 @@ public class ArbolMViasBusqueda<K extends Comparable <K>, V> implements IArbolBu
         sucesorInorden(nodoActual, recorrido, posicion + 1);
         return recorrido.get(0);
     }
+
     //10.3.1
-    private void sucesorInorden(NodoMVias<K,V> nodoActual, List<K> recorrido, int posicion) {
+    private void sucesorInorden(NodoMVias<K, V> nodoActual, List<K> recorrido, int posicion) {
         if (NodoMVias.esNodoVacio(nodoActual)) {
             return;
         }
@@ -224,7 +238,7 @@ public class ArbolMViasBusqueda<K extends Comparable <K>, V> implements IArbolBu
     //10.1
 //    postcondicion
 //    el nodo se podria quedar vacio de datos
-    protected void eliminarClaveYValor(NodoMVias<K,V> nodoActual, int i) {
+    protected void eliminarClaveYValor(NodoMVias<K, V> nodoActual, int i) {
         int posicion = i;
         while (posicion < nodoActual.cantidadDeClavesNoVacias() - 1) {
             K claveActual = nodoActual.getClave(posicion + 1);
@@ -233,22 +247,22 @@ public class ArbolMViasBusqueda<K extends Comparable <K>, V> implements IArbolBu
             nodoActual.setValor(posicion, valorActual);
             posicion++;
         }
-        nodoActual.setClave(posicion, (K)NodoMVias.datoVacio());
-        nodoActual.setValor(posicion, (V)NodoMVias.datoVacio());
+        nodoActual.setClave(posicion, (K) NodoMVias.datoVacio());
+        nodoActual.setValor(posicion, (V) NodoMVias.datoVacio());
     }
 
     //4
     @Override
     public V buscar(K claveABuscar) {
-        if (claveABuscar == NodoMVias.datoVacio()){
-        return (V) NodoMVias.datoVacio();
+        if (claveABuscar == NodoMVias.datoVacio()) {
+            return (V) NodoMVias.datoVacio();
         }
 
         NodoMVias<K, V> nodoActual = this.raiz;
         while (!NodoMVias.esNodoVacio(nodoActual)) {
             boolean huboCambioDeNodo = false;
             for (int i = 0; i < nodoActual.cantidadDeClavesNoVacias()
-                    && !huboCambioDeNodo; i++){
+                    && !huboCambioDeNodo; i++) {
                 K claveActual = nodoActual.getClave(i);
                 if (claveABuscar.compareTo(claveActual) == 0) {
                     return nodoActual.getValor(i);
@@ -265,8 +279,9 @@ public class ArbolMViasBusqueda<K extends Comparable <K>, V> implements IArbolBu
                 nodoActual = nodoActual.getHijo(this.orden - 1);
             }
         }
-        return (V)NodoMVias.datoVacio();
+        return (V) NodoMVias.datoVacio();
     }
+
     //3
     @Override
     public boolean contiene(K claveABuscar) {
@@ -278,6 +293,7 @@ public class ArbolMViasBusqueda<K extends Comparable <K>, V> implements IArbolBu
     public int size() {
         return sizeRecursivo(this.raiz);
     }
+
     //8.1
     private int sizeRecursivo(NodoMVias<K, V> nodoActual) {
         if (NodoMVias.esNodoVacio(nodoActual)) {
@@ -300,11 +316,13 @@ public class ArbolMViasBusqueda<K extends Comparable <K>, V> implements IArbolBu
         */
         return sizeAcumulado + 1;
     }
+
     //9
     @Override
     public int altura() {
         return alturaRecursiva(this.raiz);
     }
+
     //9.1
     private int alturaRecursiva(NodoMVias<K, V> nodoActual) {
         if (NodoMVias.esNodoVacio(nodoActual)) {
@@ -327,11 +345,13 @@ public class ArbolMViasBusqueda<K extends Comparable <K>, V> implements IArbolBu
     public void vaciar() {
         this.raiz = NodoMVias.nodoVacio();
     }
+
     //4
     @Override
     public boolean esArbolVacio() {
         return NodoMVias.esNodoVacio(this.raiz);
     }
+
     //6
     @Override
     public List recorridoPorNiveles() {
@@ -381,6 +401,7 @@ public class ArbolMViasBusqueda<K extends Comparable <K>, V> implements IArbolBu
         this.recorridoEnInOrden(this.raiz, recorrido);
         return recorrido;
     }
+
     //6.1
     private void recorridoEnInOrden(NodoMVias<K, V> nodoActual, List<K> recorrido) {
         //n == 0
@@ -412,6 +433,7 @@ public class ArbolMViasBusqueda<K extends Comparable <K>, V> implements IArbolBu
         this.recorridoEnPostOrden(this.raiz, recorrido);
         return recorrido;
     }
+
     //7.1
     private void recorridoEnPostOrden(NodoMVias<K, V> nodoActual, List<K> recorrido) {
         //n == 0
@@ -422,16 +444,18 @@ public class ArbolMViasBusqueda<K extends Comparable <K>, V> implements IArbolBu
         recorridoEnPostOrden(nodoActual.getHijo(0), recorrido);
 
         for (int i = 0; i < nodoActual.cantidadDeClavesNoVacias(); i++) {
-            recorridoEnPostOrden(nodoActual.getHijo(i+1), recorrido);
+            recorridoEnPostOrden(nodoActual.getHijo(i + 1), recorrido);
             recorrido.add(nodoActual.getClave(i));
         }
     }
+
     /*Ejemplo en clase- 18 de nnoviembre*/
     //11. Cantidad de claves no vacias.
     // Recursivo.
     public int cantidadDeClavesNoVacias() {
-        return  this.cantidadDeClavesNoVacias(this.raiz);
+        return this.cantidadDeClavesNoVacias(this.raiz);
     }
+
     //11.1
     private int cantidadDeClavesNoVacias(NodoMVias<K, V> nodoActual) {
         if (NodoMVias.esNodoVacio(nodoActual)) {
@@ -466,7 +490,7 @@ public class ArbolMViasBusqueda<K extends Comparable <K>, V> implements IArbolBu
                     }
                 }//fin for
 
-                if (!nodoActual.esHijoVacio(orden - 1 )) {
+                if (!nodoActual.esHijoVacio(orden - 1)) {
                     colaDeNodos.offer(nodoActual.getHijo(orden - 1));
                 }
             }//fin while
@@ -553,37 +577,38 @@ public class ArbolMViasBusqueda<K extends Comparable <K>, V> implements IArbolBu
         int cantidad = 0;
         int nivelActual = 0;
         if (!this.esArbolVacio()) {
-         Queue<NodoMVias<K, V>> colaDeNodos = new LinkedList<>();
-         colaDeNodos.offer(this.raiz);
+            Queue<NodoMVias<K, V>> colaDeNodos = new LinkedList<>();
+            colaDeNodos.offer(this.raiz);
 
-         while (!colaDeNodos.isEmpty()) {//entra en el ciclo si la cola no esta vacia
-             int cantidadDeNodosEnLaCola = colaDeNodos.size();
+            while (!colaDeNodos.isEmpty()) {//entra en el ciclo si la cola no esta vacia
+                int cantidadDeNodosEnLaCola = colaDeNodos.size();
 
-             while (cantidadDeNodosEnLaCola > 0) {//el ciclo procesa todos los nodos en colaDeNodos.
-                 NodoMVias<K, V> nodoActual = colaDeNodos.poll();
+                while (cantidadDeNodosEnLaCola > 0) {//el ciclo procesa todos los nodos en colaDeNodos.
+                    NodoMVias<K, V> nodoActual = colaDeNodos.poll();
 
-                 for (int i = 0; i < this.orden; i++) {//utilizo orden por que procesa los hijos de nodoActual.
+                    for (int i = 0; i < this.orden; i++) {//utilizo orden por que procesa los hijos de nodoActual.
 
-                     if (nivelActual < nivel) {
-                         if (nodoActual.esHijoVacio(i)) {
-                             cantidad++;//incrementa si está antes del nivel y es hijo vacio.
-                         }
-                     }
+                        if (nivelActual < nivel) {
+                            if (nodoActual.esHijoVacio(i)) {
+                                cantidad++;//incrementa si está antes del nivel y es hijo vacio.
+                            }
+                        }
 
-                     if (!nodoActual.esHijoVacio(i)) {
-                         colaDeNodos.offer(nodoActual.getHijo(i));//añade a la cola si es hijo no vacio.
-                     }
-                 }//fin for
+                        if (!nodoActual.esHijoVacio(i)) {
+                            colaDeNodos.offer(nodoActual.getHijo(i));//añade a la cola si es hijo no vacio.
+                        }
+                    }//fin for
 
-                 cantidadDeNodosEnLaCola--;
-             }//fin while
+                    cantidadDeNodosEnLaCola--;
+                }//fin while
 
-             nivelActual++;
-         }//fin while
+                nivelActual++;
+            }//fin while
         }
 
         return cantidad;
     }
+
     //4. Para un árbol m-vias de búsqueda crear un método que retorne la cantidad de hijos vacios a partir del nivel n del árbol.
     public int cantidadDeHijosVaciasAPartirDelNivelN(int nivel) {
         int cantidad = 0;
@@ -595,7 +620,7 @@ public class ArbolMViasBusqueda<K extends Comparable <K>, V> implements IArbolBu
             while (!colaDeNodos.isEmpty()) {
                 int cantidadDeNodosEnLaCola = colaDeNodos.size();
 
-                while(cantidadDeNodosEnLaCola > 0) {
+                while (cantidadDeNodosEnLaCola > 0) {
                     NodoMVias<K, V> nodoActual = colaDeNodos.poll();
                     for (int i = 0; i < this.orden; i++) {
 
@@ -619,5 +644,97 @@ public class ArbolMViasBusqueda<K extends Comparable <K>, V> implements IArbolBu
 
         return cantidad;
     }
+
+
+    //---------------------------------------PRACTICO-SOBRE-ARBOLES--------------------------------------
+    /*12. Implemente un método que retorne verdadero si solo hay nodos completos en el nivel n de un árbol m vias.
+    Falso en caso contrario..*/
+    public boolean sonNodosCompletosEnELNivel(int nivel) {
+
+        if (!this.esArbolVacio()) {
+            int nivelActual = 0;
+            Queue<NodoMVias<K, V>> colaDeNodos = new LinkedList<>();
+            colaDeNodos.offer(this.raiz);
+
+            while (!colaDeNodos.isEmpty() && nivelActual <= nivel) {
+                NodoMVias<K, V> nodoActual = colaDeNodos.poll();
+
+                for (int i = 0; i < this.orden - 1; i++) {
+                    if (nivel == nivelActual) {
+                        if (nodoActual.cantidadDeClavesNoVacias() != this.orden - 1) {
+                            if (nodoActual.cantidadDeHijosNoVacios() != this.orden) {
+                                return false;
+                            }
+                        }
+                    }
+
+                    if (!nodoActual.esHijoVacio(i)) {
+                        colaDeNodos.offer(nodoActual.getHijo(i));
+                    }
+
+                }
+                nivelActual++;
+            }
+        }
+        return true;
+    }
+
+
+
+
+    /*14. Para un árbol m vías implementar un método que reciba otro árbol de parámetro y que retorne verdadero
+    si los arboles son similares. Falso en caso contrario.*/
+
+    public NodoMVias<K, V> getRaiz() {
+        return this.raiz;
+    }
+
+    public boolean esArbolSimilar(ArbolMViasBusqueda<K, V> unArbol) {
+
+        if (this.orden != unArbol.orden) {
+            return false;
+        }
+
+        if (this.esArbolVacio() || unArbol.esArbolVacio()) {
+            return false;
+        }
+
+        if (this.size() != unArbol.size()) {
+            return false;
+        }
+        //En este punto sé que al menos existe un nodo en ambos árboles, la raiz.
+        //Verifico si los árboles tienen la misma estructura.
+
+        Queue<NodoMVias<K, V>> colaDeNodos = new LinkedList<>();
+        Queue<NodoMVias<K, V>> colaDeNodosDeUnArbol = new LinkedList<>();
+
+        colaDeNodos.offer(this.raiz);
+        colaDeNodosDeUnArbol.offer(unArbol.getRaiz());
+
+        while (!colaDeNodos.isEmpty() && !colaDeNodosDeUnArbol.isEmpty()) {
+            NodoMVias<K, V> nodoActual = colaDeNodos.poll();
+            NodoMVias<K, V> nodoActualDeUnArbol = colaDeNodosDeUnArbol.poll();
+
+            for (int i = 0; i < this.orden - 1; i++) {
+
+                if (!nodoActual.esHijoVacio(i) && nodoActualDeUnArbol.esHijoVacio(i)
+                        || nodoActual.esHijoVacio(i) && !nodoActualDeUnArbol.esHijoVacio(i)) {
+                    return false;
+                }
+
+                if (!nodoActual.esHijoVacio(i)) {
+                    colaDeNodos.offer(nodoActual.getHijo(i));
+                }
+
+                if (!nodoActualDeUnArbol.esHijoVacio(i)) {
+                    colaDeNodosDeUnArbol.offer(nodoActualDeUnArbol.getHijo(i));
+                }
+
+            }
+
+        }
+        return true;
+    }
+
 
 }

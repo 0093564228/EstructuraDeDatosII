@@ -2,6 +2,7 @@ package bo.edu.uagrm.ficct.inf310.ed202102.arboles;
 
 import java.util.*;
 import java.lang.*;
+
 public class ArbolBinarioBusqueda<K extends Comparable<K>, V> implements IArbolBusqueda<K, V> {
 
     protected NodoBinario<K, V> raiz;
@@ -479,7 +480,7 @@ public class ArbolBinarioBusqueda<K extends Comparable<K>, V> implements IArbolB
         return esSoloUnHijoRecursivo(this.raiz);
     }
 
-    private boolean esSoloUnHijoRecursivo(NodoBinario<K,V> nodoActual) {
+    private boolean esSoloUnHijoRecursivo(NodoBinario<K, V> nodoActual) {
         if (NodoBinario.esNodoVacio(nodoActual)) {
             return true;
         }
@@ -513,7 +514,7 @@ public class ArbolBinarioBusqueda<K extends Comparable<K>, V> implements IArbolB
             colaDeNodos.offer(this.raiz);
             while (!colaDeNodos.isEmpty() && controlNivel < nivel) {
                 int nodosEnLaCola = colaDeNodos.size();
-                while (nodosEnLaCola>0) {
+                while (nodosEnLaCola > 0) {
                     NodoBinario<K, V> nodoActual = colaDeNodos.poll();
                     nodosEnLaCola--;
                     if (controlNivel < nivel) {
@@ -568,7 +569,187 @@ public class ArbolBinarioBusqueda<K extends Comparable<K>, V> implements IArbolB
 
         return true;
     }
-}
 
+    //---------------------------------------PRACTICO-SOBRE-ARBOLES--------------------------------------
+    /*7. Implemente un método iterativo con el recorrido en inorden que retorne la cantidad de nodos
+     que tienen ambos hijos distintos de vacío en un árbol binario */
+    public int cantidadDeNodosConAmbosHijosNoVacios() {
+        int cantidad = 0;
+
+        if (!this.esArbolVacio()) {
+            Stack<NodoBinario<K, V>> pilaDeNodos = new Stack<>();
+            this.meterEnPilaParaInOrden(pilaDeNodos, this.raiz);
+            while (!pilaDeNodos.isEmpty()) {
+                NodoBinario<K, V> nodoActual = pilaDeNodos.pop();
+                if (!nodoActual.esHoja()) {
+                    if (!nodoActual.esVacioHijoIzquierdo() && !nodoActual.esVacioHijoDerecho()) {
+                        cantidad++;
+                    }
+                }
+                if (!nodoActual.esVacioHijoDerecho()) {
+                    this.meterEnPilaParaInOrden(pilaDeNodos, nodoActual.getHijoDerecho());
+                }
+            }
+        }
+
+        return cantidad;
+    }
+
+    private void meterEnPilaParaInOrden(Stack<NodoBinario<K, V>> pilaDeNodos, NodoBinario<K, V> nodoActual) {
+        while (!NodoBinario.esNodoVacio(nodoActual)) {
+            pilaDeNodos.push(nodoActual);
+            nodoActual = nodoActual.getHijoIzquierdo();
+        }
+    }
+
+    /*8. Implemente un método recursivo que retorne la cantidad de nodos que tienen un solo hijo no vació*/
+    public int cantidadDeNodosConUnSoloHijo() {
+
+        return cantidadDeNodosConUnSoloHijo(this.raiz);
+    }
+
+    private int cantidadDeNodosConUnSoloHijo(NodoBinario<K, V> nodoActual) {
+        if (NodoBinario.esNodoVacio(nodoActual)) {
+            return 0;
+        }
+        int cantidadPorIzquierda = cantidadDeNodosConUnSoloHijo(nodoActual.getHijoIzquierdo());
+        int cantidadPorDerecha = cantidadDeNodosConUnSoloHijo(nodoActual.getHijoDerecho());
+
+        if (!nodoActual.esHoja()) {
+            if (!nodoActual.esVacioHijoIzquierdo() && nodoActual.esVacioHijoDerecho()
+                    || nodoActual.esVacioHijoIzquierdo() && !nodoActual.esVacioHijoDerecho()) {
+                return cantidadPorIzquierda + cantidadPorDerecha + 1;
+            }
+        }
+
+        return cantidadPorIzquierda + cantidadPorDerecha;
+    }
+
+    /*9. Implemente un método iterativo con la lógica de un recorrido en inOrden que retorne el número de hijos
+     vacios que tiene un árbol binario.*/
+    public int cantidadDeHijosVacios() {
+        int cantidad = 0;
+        if (!this.esArbolVacio()) {
+            Stack<NodoBinario<K, V>> pilaDeNodos = new Stack<>();
+            this.meterEnPilaParaInOrden(pilaDeNodos, this.raiz);
+
+            while (!pilaDeNodos.isEmpty()) {
+                NodoBinario<K, V> nodoActual = pilaDeNodos.pop();
+
+                if (nodoActual.esVacioHijoIzquierdo()) {
+                    cantidad++;
+                }
+
+                if (nodoActual.esVacioHijoDerecho()) {
+                    cantidad++;
+                }
+
+                if (!nodoActual.esVacioHijoDerecho()) {
+                    this.meterEnPilaParaInOrden(pilaDeNodos, nodoActual.getHijoDerecho());
+                }
+
+            }
+        }
+        return cantidad;
+    }
+
+    /*11. Implemente un método privado que reciba un nodo binario de un árbol binario y que
+     retorne cuál sería su predecesor inorden de la clave de dicho nodo.*/
+
+    public K predecesorInOrden(K clave) {
+        NodoBinario<K, V> nodoABuscar = this.buscarNodo(clave);
+        return predecesorInOrden(nodoABuscar.getHijoIzquierdo());
+    }
+
+    private NodoBinario<K,V> buscarNodo(K claveABuscar) {
+        if (claveABuscar == null) {
+            return null;
+        }
+
+        NodoBinario<K, V> nodoActual = this.raiz;
+        while (!NodoBinario.esNodoVacio(nodoActual)) {
+            K claveActual = nodoActual.getClave();
+            if (claveABuscar.compareTo(claveActual) < 0) {
+                nodoActual = nodoActual.getHijoIzquierdo();
+            } else if (claveABuscar.compareTo(claveActual) > 0) {
+                nodoActual = nodoActual.getHijoDerecho();
+            } else {
+                return nodoActual;
+            }
+        }
+        return null;
+    }
+
+    private K predecesorInOrden(NodoBinario<K, V> nodoActual) {
+        NodoBinario<K, V> nodoAnterior = NodoBinario.nodoVacio();
+        while (!NodoBinario.esNodoVacio(nodoActual)) {
+            nodoAnterior = nodoActual;
+            nodoActual = nodoActual.getHijoDerecho();
+        }
+
+        return nodoAnterior.getClave();
+    }
+
+    /*15. Para un árbol binario de búsqueda implemente un método que reciba como parámetro
+    otro árbol y que retorne verdadero si los arboles son similares, falso en caso contrario.*/
+
+    public NodoBinario<K, V> getRaiz() {
+        return this.raiz;
+    }
+
+    public boolean esArbolSimilar(ArbolBinarioBusqueda<K, V> unArbol) {
+        if (this.esArbolVacio() || unArbol.esArbolVacio()) {
+            return false;
+        }
+        if (this.size() != unArbol.size()) {
+            return false;
+        }
+
+        //En este punto sé que al menos existe un nodo en ambos árboles, la raiz.
+        //Verifico si los árboles tienen la misma estructura.
+
+        Queue<NodoBinario<K, V>> colaDeNodos = new LinkedList<>();
+        Queue<NodoBinario<K, V>> colaDeNodosDeUnArbol = new LinkedList<>();
+
+        colaDeNodos.offer(this.raiz);
+        colaDeNodosDeUnArbol.offer(unArbol.getRaiz());
+
+        while (!colaDeNodos.isEmpty() && !colaDeNodosDeUnArbol.isEmpty()) {
+            NodoBinario<K, V> nodoActual = colaDeNodos.poll();
+            NodoBinario<K, V> nodoActualDeUnArbol = colaDeNodosDeUnArbol.poll();
+
+                if (nodoActual.esVacioHijoIzquierdo() && !nodoActualDeUnArbol.esVacioHijoIzquierdo()
+                        || !nodoActual.esVacioHijoIzquierdo() && nodoActualDeUnArbol.esVacioHijoIzquierdo()) {
+                    return false;
+                }
+
+                if (nodoActual.esVacioHijoDerecho() && !nodoActualDeUnArbol.esVacioHijoDerecho()
+                        || !nodoActual.esVacioHijoDerecho() && nodoActualDeUnArbol.esVacioHijoDerecho()) {
+                    return false;
+                }
+
+
+                if (!nodoActual.esVacioHijoIzquierdo()) {
+                    colaDeNodos.offer(nodoActual.getHijoIzquierdo());
+                }
+
+                if (!nodoActual.esVacioHijoDerecho()) {
+                    colaDeNodos.offer(nodoActual.getHijoDerecho());
+                }
+
+                if (!nodoActualDeUnArbol.esVacioHijoIzquierdo()) {
+                    colaDeNodosDeUnArbol.offer(nodoActualDeUnArbol.getHijoIzquierdo());
+                }
+
+                if (!nodoActualDeUnArbol.esVacioHijoDerecho()) {
+                    colaDeNodosDeUnArbol.offer(nodoActualDeUnArbol.getHijoDerecho());
+                }
+
+
+
+        }
+        return true;
+    }
+}
 
 

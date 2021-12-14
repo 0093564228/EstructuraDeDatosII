@@ -68,9 +68,9 @@ public class TestArbol {
         arbolDePrueba.insertar(130, "nom9");
         arbolDePrueba.insertar(140, "nom10");
         arbolDePrueba.insertar(150, "nom11");
-//        arbolDePrueba.insertar(400, "nom12");
-//        arbolDePrueba.insertar(500, "nom13");
-//        arbolDePrueba.insertar(560, "nom14");
+        arbolDePrueba.insertar(400, "nom12");
+        arbolDePrueba.insertar(500, "nom13");
+        arbolDePrueba.insertar(560, "nom14");
         arbolDePrueba.insertar(72, "nom15");
         arbolDePrueba.insertar(134, "nom16");
         arbolDePrueba.insertar(160, "nom17");
