@@ -1,2 +1,2 @@
 # Practico_arboles
-Los métodos estan el la clase TestPractico.
+Los métodos estan en la clase TestPractico.
