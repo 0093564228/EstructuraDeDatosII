@@ -29,19 +29,117 @@ public class ArbolBinarioBusqueda<K extends Comparable<K>, V> implements IArbolB
 
     //16.1
     private NodoBinario<K, V> reconstruirConPreOrden(List<K> listaDeClavesInOrden, List<V> listaDeValoresInOrden,
-                                                     List<K> ListaDeClavesNoInOrden, List<V> ListaDeValoresNoInOrden) {
+                                                     List<K> listaDeClavesPreOrden, List<V> listaDeValoresPreOrden) {
 
-        return null;
+        if (listaDeClavesPreOrden.isEmpty()) {
+            return NodoBinario.nodoVacio();
+        }
+
+        K clave = listaDeClavesPreOrden.get(0);
+        V valor = listaDeValoresPreOrden.get(0);
+
+        NodoBinario<K, V> nodoActual = new NodoBinario<>(clave, valor);
+
+        int posicion = this.getPosicion(listaDeClavesInOrden, clave);
+
+        List<K> subListIzquierdaClavesPreOrden = listaDeClavesPreOrden.subList(0, posicion);
+        List<V> subListIzquierdaValoresPreOrden = listaDeValoresPreOrden.subList(0, posicion);
+        List<K> subListIzquierdaClavesInOrden = listaDeClavesInOrden.subList(0, posicion);
+        List<V> subListIzquierdaValoresInOrden = listaDeValoresInOrden.subList(0, posicion);
+
+        NodoBinario<K, V> hijoIzquierdo = reconstruirConPreOrden(subListIzquierdaClavesInOrden, subListIzquierdaValoresInOrden,
+                subListIzquierdaClavesPreOrden, subListIzquierdaValoresPreOrden);
+
+
+        List<K> subListDerechaClavesPreOrden = listaDeClavesPreOrden.subList(posicion, listaDeClavesPreOrden.size() - 1);
+        List<V> subListDerechaValoresPreOrden = listaDeValoresPreOrden.subList(posicion, listaDeClavesPreOrden.size() - 1);
+        List<K> subListDerechaClavesInOrden = listaDeClavesInOrden.subList(posicion + 1, listaDeClavesInOrden.size());
+        List<V> subListDerechaValoresInOrden = listaDeValoresInOrden.subList(posicion + 1, listaDeClavesInOrden.size());
+
+        NodoBinario<K, V> hijoDerecho = reconstruirConPostOrden(subListDerechaClavesInOrden, subListDerechaValoresInOrden,
+                subListDerechaClavesPreOrden, subListDerechaValoresPreOrden);
+
+        nodoActual.setHijoIzquierdo(hijoIzquierdo);
+        nodoActual.setHijoDerecho(hijoDerecho);
+
+        return nodoActual;
     }
 
     //16.2
-    private NodoBinario<K, V> reconstruirConPostOrden(List<K> listaDeClavesInOrden, List<V> listaDeValoresInOrden,
-                                                      List<K> ListaDeClavesNoInOrden, List<V> ListaDeValoresNoInOrden) {
-        K claveActual = recorridoEnPostOrden().get(recorridoEnPostOrden().size());
+    private NodoBinario<K, V> reconstruirConPostOrden(List<K> listaDeClavesPostOrden, List<V> listaDeValoresPostOrden,
+                                                      List<K> listaDeClavesInOrden, List<V> listaDeValoresInOrden) {
+        if (listaDeClavesPostOrden.isEmpty()) {
+            return NodoBinario.nodoVacio();
+        }
 
-        return null;
+        K clave = listaDeClavesPostOrden.get(listaDeClavesPostOrden.size() - 1);
+        V valor = listaDeValoresPostOrden.get(listaDeValoresPostOrden.size() - 1);
+
+        NodoBinario<K, V> nodoActual = new NodoBinario<>(clave, valor);
+
+        int posicion = this.getPosicion(listaDeClavesInOrden, clave);
+
+        List<K> subListIzquierdaClavesPostOrden = listaDeClavesPostOrden.subList(0, posicion);
+        List<V> subListIzquierdaValoresPostOrden = listaDeValoresPostOrden.subList(0, posicion);
+        List<K> subListIzquierdaClavesInOrden = listaDeClavesInOrden.subList(0, posicion);
+        List<V> subListIzquierdaValoresInOrden = listaDeValoresInOrden.subList(0, posicion);
+
+        NodoBinario<K, V> hijoIzquierdo = reconstruirConPostOrden(subListIzquierdaClavesPostOrden, subListIzquierdaValoresPostOrden,
+                subListIzquierdaClavesInOrden, subListIzquierdaValoresInOrden);
+
+
+        List<K> subListDerechaClavesPostOrden = listaDeClavesPostOrden.subList(posicion, listaDeClavesPostOrden.size() - 1);
+        List<V> subListDerechaValoresPostOrden = listaDeValoresPostOrden.subList(posicion, listaDeValoresPostOrden.size() - 1);
+        List<K> subListDerechaClavesInOrden = listaDeClavesInOrden.subList(posicion + 1, listaDeClavesInOrden.size());
+        List<V> subListDerechaValoresInOrden = listaDeValoresInOrden.subList(posicion + 1, listaDeClavesInOrden.size());
+
+        NodoBinario<K, V> hijoDerecho = reconstruirConPostOrden(subListDerechaClavesPostOrden, subListDerechaValoresPostOrden,
+                subListDerechaClavesInOrden, subListDerechaValoresInOrden);
+
+        nodoActual.setHijoIzquierdo(hijoIzquierdo);
+        nodoActual.setHijoDerecho(hijoDerecho);
+
+        return nodoActual;
     }
 
+
+    /** 16.3
+     * Retorna la posición de una clave de una lista de claves
+     * @param litaDeClaves
+     * @param claveABuscar
+     * @return
+     */
+    private int getPosicion(List<K> litaDeClaves, K claveABuscar) {
+        for (int i = 0; i < litaDeClaves.size(); i++) {
+            K claveActual = litaDeClaves.get(i);
+            if (claveABuscar.compareTo(claveActual) == 0) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    /** 16.4
+     * Retorna una lista de valores.
+     * @param listaDeClaves
+     * @return
+     */
+    public List<V> listaDeValores(List<K> listaDeClaves) {
+        List<V> recorrido = new LinkedList<>();
+        for (int i = 0; i < listaDeClaves.size(); i++) {
+            K clave = listaDeClaves.get(i);
+            V valor = this.buscar(clave);
+            recorrido.add(valor);
+        }
+        return recorrido;
+    }
+
+    /**
+     *
+     * @param claveAInsertar
+     * @param valorAInsertar
+     * @throws NullPointerException
+     */
     //3
     @Override
     public void insertar(K claveAInsertar, V valorAInsertar) throws NullPointerException {

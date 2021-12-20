@@ -2,6 +2,8 @@ package bo.edu.uagrm.ficct.inf310.ed202102.ui;
 
 import bo.edu.uagrm.ficct.inf310.ed202102.arboles.*;
 
+import java.util.*;
+
 import java.util.Scanner;
 
 public class TestPractico {
@@ -31,7 +33,7 @@ public class TestPractico {
         arbolBinario1.insertar(190, "nom19");
         arbolBinario1.insertar(158, "nom20");
 
-        //Insertando claves y valores en otro árbol para probar si son similares en estructura
+        //Insertando claves y valores en otro árbol binario para probar si son similares en estructura
 
         IArbolBusqueda<Integer, String> arbolBinario2 = new ArbolBinarioBusqueda<>();
 
@@ -96,7 +98,7 @@ public class TestPractico {
         arbolMVias1.insertar(130, "nom9");
         arbolMVias1.insertar(140, "nom10");
         arbolMVias1.insertar(150, "nom11");
-        //datos comentados para probar el método eliminar con la clave 200 y verificar si son similares.
+        //claves y valores comentados para probar el método eliminar con la clave 200 y verificar si son similares.
 //        arbolMVias1.insertar(400, "nom12");
 //        arbolMVias1.insertar(500, "nom13");
 //        arbolMVias1.insertar(560, "nom14");
@@ -107,7 +109,7 @@ public class TestPractico {
         arbolMVias1.insertar(190, "nom19");
         arbolMVias1.insertar(158, "nom20");
 
-        //Insertando claves y valores en otro árbol para probar si son similares en estructura
+        //Insertando claves y valores en otro árbol m-vias para probar si son similares en estructura
 
         IArbolBusqueda<Integer, String> arbolMVias2 = new ArbolMViasBusqueda<>(4);
 
@@ -138,7 +140,7 @@ public class TestPractico {
         System.out.println("2. Respuesta al enunciado: Método eliminar de árbol AVL: ");
         System.out.println("Se elimino el dato: " + arbolAVL.eliminar(200));
         System.out.println("Se elimino el dato: " + arbolAVL.eliminar(110));
-        System.out.println("Recorrido InORden: " + arbolAVL.recorridoEnInOrden());
+        System.out.println("Recorrido InOrden: " + arbolAVL.recorridoEnInOrden());
         System.out.println("Size: " + arbolAVL.size());
         //------------------------------------------------------------------------------------------------------------
         System.out.println("5. Respuesta al enunciado: Método insertar de árbol M-Vias: ");
@@ -158,10 +160,49 @@ public class TestPractico {
                 + ((ArbolBinarioBusqueda<Integer, String>) arbolBinario1).cantidadDeNodosConUnSoloHijo());
         System.out.println("9. Respuesta al enunciado: número de hijos vacios que tiene un árbol binario: "
                 + ((ArbolBinarioBusqueda<Integer, String>) arbolBinario1).cantidadDeHijosVacios());
+
+        /*
+         * Declaro listas de claves y valores en postorden e inorden para reconstruir el árbol.
+         */
+        List<Integer> listaDeClavesInOrden = arbolBinario1.recorridoEnInOrden();
+        List<String> listaDeValoresInOrden = ((ArbolBinarioBusqueda<Integer, String>) arbolBinario1).listaDeValores(listaDeClavesInOrden);
+
+        List<Integer> listaDeClavesPostOrden = arbolBinario1.recorridoEnPostOrden();
+        List<String> listaDeValoresPostOrden = ((ArbolBinarioBusqueda<Integer, String>) arbolBinario1).listaDeValores(listaDeClavesPostOrden);
+
+        arbolBinario1 = new ArbolBinarioBusqueda<>(listaDeClavesPostOrden, listaDeValoresPostOrden,
+                listaDeClavesInOrden, listaDeValoresInOrden, false);
+
+        System.out.println("10. Método reconstruir con recorrido PostOrden e InOrden, probando con recorrido InOrden: " + arbolBinario1.recorridoEnInOrden());
+
+
         System.out.println("11. Respuesta al enunciado: predecesor InORden: "
                 + ((ArbolBinarioBusqueda<Integer, String>) arbolBinario1).predecesorInOrden(200));
         System.out.println("12. Respuesta al enunciado: hay nodos completos en el nivel en un árbol m-vias: "
-                + ((ArbolMViasBusqueda<Integer, String>) arbolMVias1).sonNodosCompletosEnELNivel(1));
+                + ((ArbolMViasBusqueda<Integer, String>) arbolMVias1).sonNodosCompletosEnELNivel(0));
+
+        System.out.println("13. Respuesta al enunciado: Implemente una clase ArbolBinarioBusquedaEnteroCadena que usando como base " +
+                "el ArbolBinarioBusqueda ya no sea un árbol genérico, si no un árbol binario de búsqueda con claves enteras y valores cadena.");
+
+        //Insertando claves y valores en árbol entero cadena.
+        ArbolBinarioBusquedaEnteroCadena arbolEnteroCadena = new ArbolBinarioBusquedaEnteroCadena();
+        arbolEnteroCadena.insertar(50, "nom1");
+        arbolEnteroCadena.insertar(20, "nom2");
+        arbolEnteroCadena.insertar(75, "nom3");
+        arbolEnteroCadena.insertar(10, "nom4");
+        arbolEnteroCadena.insertar(90, "nom5");
+        arbolEnteroCadena.insertar(25, "nom6");
+        arbolEnteroCadena.insertar(70, "nom7");
+        arbolEnteroCadena.insertar(80, "nom8");
+        //Probando método elimnar de árbol entero cadena.
+        System.out.println("Recorrido InOrden de arbolEnteroCadena: " + arbolEnteroCadena.recorridoEnInOrden());
+        System.out.println("Eliminando el 90 y 50 respectivamente.");
+        arbolEnteroCadena.eliminar(90);
+        arbolEnteroCadena.eliminar(50);
+        System.out.println("Recorrido InOrden de arbolEnteroCadena: " + arbolEnteroCadena.recorridoEnInOrden());
+
+
+
         System.out.println("14. Respuesta al enunciado: son árboles M-Vias similares: "
                 + ((ArbolMViasBusqueda<Integer, String>) arbolMVias1).esArbolSimilar((ArbolMViasBusqueda<Integer, String>) arbolMVias2));
         System.out.println("15. Respuesta al enunciado: son árboles binarios similares: "

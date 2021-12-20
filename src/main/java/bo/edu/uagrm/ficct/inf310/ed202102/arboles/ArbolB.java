@@ -17,7 +17,7 @@ public class ArbolB<K extends Comparable<K>, V> extends ArbolMViasBusqueda<K, V>
     //2
     public ArbolB(int orden) throws ExceptionOrdenNoValido{
         super(orden);
-        this.nroMaximoDeDatos = this.orden - 1;
+        this.nroMaximoDeDatos = super.orden - 1;
         this.nroMinimoDeDatos = this.nroMaximoDeDatos / 2;
         this.nroMinimoDeHijos = this.nroMinimoDeDatos + 1;
     }
@@ -33,7 +33,7 @@ public class ArbolB<K extends Comparable<K>, V> extends ArbolMViasBusqueda<K, V>
         }
 
         if (this.esArbolVacio()) {
-            this.raiz = new NodoMVias<>(this.orden + 1, claveAInsertar, valorAInsertar);
+            this.raiz = new NodoMVias<>(super.orden + 1, claveAInsertar, valorAInsertar);
             return;
         }
 
@@ -58,11 +58,12 @@ public class ArbolB<K extends Comparable<K>, V> extends ArbolMViasBusqueda<K, V>
             int posicionPorDondeBajar = super.getPosicionPorDondeBajar(nodoActual, claveAInsertar);
             pilaDePadres.push(nodoActual);
             nodoActual = nodoActual.getHijo(posicionPorDondeBajar);
-
         }
     }
     //3.1
     private void dividir(NodoMVias<K,V> nodoActual, Stack<NodoMVias<K,V>> pilaDePadres) {
+
+
     }
 
     //4

@@ -649,38 +649,48 @@ public class ArbolMViasBusqueda<K extends Comparable<K>, V> implements IArbolBus
     //---------------------------------------PRACTICO-SOBRE-ARBOLES--------------------------------------
     /*12. Implemente un método que retorne verdadero si solo hay nodos completos en el nivel n de un árbol m vias.
     Falso en caso contrario..*/
+
+    //Nodo completo es el que tiene claves llenas y todos sus hijos.
     public boolean sonNodosCompletosEnELNivel(int nivel) {
 
-        if (!this.esArbolVacio()) {
-            int nivelActual = 0;
-            Queue<NodoMVias<K, V>> colaDeNodos = new LinkedList<>();
-            colaDeNodos.offer(this.raiz);
-
-            while (!colaDeNodos.isEmpty() && nivelActual <= nivel) {
-                NodoMVias<K, V> nodoActual = colaDeNodos.poll();
-
-                for (int i = 0; i < this.orden - 1; i++) {
-                    if (nivel == nivelActual) {
-                        if (nodoActual.cantidadDeClavesNoVacias() != this.orden - 1) {
-                            if (nodoActual.cantidadDeHijosNoVacios() != this.orden) {
-                                return false;
-                            }
-                        }
-                    }
-
-                    if (!nodoActual.esHijoVacio(i)) {
-                        colaDeNodos.offer(nodoActual.getHijo(i));
-                    }
-
-                }
-                nivelActual++;
-            }
+        if (this.esArbolVacio()) {
+            return false;
         }
+        int nivelActual = 0;
+        Queue<NodoMVias<K, V>> colaDeNodos = new LinkedList<>();
+        colaDeNodos.offer(this.raiz);
+
+        while (!colaDeNodos.isEmpty() && nivelActual <= nivel) {
+            NodoMVias<K, V> nodoActual = colaDeNodos.poll();
+
+            for (int i = 0; i < this.orden - 1; i++) {
+                if (nivel == nivelActual) {
+                    if (nodoActual.esClaveVacia(i) || nodoActual.esHijoVacio(i)) {
+                        return false;
+                    }
+                }
+
+                if (!nodoActual.esHijoVacio(i)) {
+                    colaDeNodos.offer(nodoActual.getHijo(i));
+                }
+            }//fin for
+
+            if (nivel == nivelActual) {
+                if (nodoActual.esHijoVacio(this.orden - 1)) {
+                    return false;
+                }
+            }
+
+            if (!nodoActual.esHijoVacio(this.orden - 1)) {
+                colaDeNodos.offer(nodoActual.getHijo(this.orden - 1));
+            }
+
+            nivelActual++;
+        }
+
+
         return true;
     }
-
-
-
 
     /*14. Para un árbol m vías implementar un método que reciba otro árbol de parámetro y que retorne verdadero
     si los arboles son similares. Falso en caso contrario.*/
@@ -736,5 +746,5 @@ public class ArbolMViasBusqueda<K extends Comparable<K>, V> implements IArbolBus
         return true;
     }
 
-
 }
+
