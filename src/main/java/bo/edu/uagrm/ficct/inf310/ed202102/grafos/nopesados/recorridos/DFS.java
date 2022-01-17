@@ -1,8 +1,10 @@
-package bo.edu.uagrm.ficct.inf310.ed202102.grafos.nopesados;
+package bo.edu.uagrm.ficct.inf310.ed202102.grafos.nopesados.recorridos;
+
+import bo.edu.uagrm.ficct.inf310.ed202102.grafos.nopesados.Grafo;
+import bo.edu.uagrm.ficct.inf310.ed202102.grafos.nopesados.recorrido_utils.RecorridoUtils;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
 
 public class DFS {
     private RecorridoUtils controlDeMarcados;
@@ -66,10 +68,16 @@ public class DFS {
         return controlDeMarcados.estaVerticeMarcado(posDeVerticeDestino);
     }
 
+    //--------------------------------
+
     /*
      * Ordenamiento topológico
      * - Es sobre grafo dirigido
      * - El digrafo debe ser debilmente conexo (?)
      * - Que no tenga ciclos (?)
+     */
+
+    /*
+    Algoritmo de warshall
      */
 }

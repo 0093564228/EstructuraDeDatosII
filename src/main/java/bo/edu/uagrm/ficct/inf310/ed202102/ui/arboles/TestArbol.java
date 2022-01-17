@@ -1,4 +1,4 @@
-package bo.edu.uagrm.ficct.inf310.ed202102.ui;
+package bo.edu.uagrm.ficct.inf310.ed202102.ui.arboles;
 
 import bo.edu.uagrm.ficct.inf310.ed202102.arboles.*;
 

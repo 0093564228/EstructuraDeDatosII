@@ -1,4 +1,7 @@
-package bo.edu.uagrm.ficct.inf310.ed202102.grafos.nopesados;
+package bo.edu.uagrm.ficct.inf310.ed202102.grafos.nopesados.recorridos;
+
+import bo.edu.uagrm.ficct.inf310.ed202102.grafos.nopesados.Grafo;
+import bo.edu.uagrm.ficct.inf310.ed202102.grafos.nopesados.recorrido_utils.RecorridoUtils;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -41,6 +44,7 @@ public class BFS {
                     controlDeMarcados.marcarVertice(posDeVerticeAdy);
                 }
             }
+
         } while (!cola.isEmpty());
     }
 

@@ -1,12 +1,10 @@
-package bo.edu.uagrm.ficct.inf310.ed202102.ui;
+package bo.edu.uagrm.ficct.inf310.ed202102.ui.practicos;
 
 import bo.edu.uagrm.ficct.inf310.ed202102.arboles.*;
 
 import java.util.*;
 
-import java.util.Scanner;
-
-public class TestPractico {
+public class TestPracticoArboles {
     public static void main(String[] args) throws ExceptionClaveNoExiste, ExceptionOrdenNoValido {
 
         //Probando método insertar de arbol binario.-----------------------------------------------------------------

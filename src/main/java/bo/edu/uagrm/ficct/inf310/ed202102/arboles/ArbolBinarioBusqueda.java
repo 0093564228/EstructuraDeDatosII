@@ -552,7 +552,7 @@ public class ArbolBinarioBusqueda<K extends Comparable<K>, V> implements IArbolB
             while (!colaDeNodos.isEmpty()) {
                 NodoBinario<K, V> nodoActual = colaDeNodos.poll();
                 if (!nodoActual.esHoja()) {
-                    if (!nodoActual.esVacioHijoDerecho() && !nodoActual.esVacioHijoIzquierdo()) {
+                    if ((!nodoActual.esVacioHijoIzquierdo()) && (!nodoActual.esVacioHijoDerecho())) {
                         return false;
                     }
                 }

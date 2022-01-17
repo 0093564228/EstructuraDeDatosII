@@ -1,17 +1,18 @@
-package bo.edu.uagrm.ficct.inf310.ed202102.grafos.nopesados;
+package bo.edu.uagrm.ficct.inf310.ed202102.grafos.nopesados.recorrido_utils;
 
 import java.util.*;
 public class RecorridoUtils {
     private List<Boolean> marcados;
+
 
     /**
      * 1)
      * @param nroDeVertices
      */
     public RecorridoUtils(int nroDeVertices) {
-        marcados = new LinkedList<>();
+        this.marcados = new LinkedList<>();
         for (int i = 0; i < nroDeVertices; i++) {
-            marcados.add(Boolean.FALSE);
+            this.marcados.add(Boolean.FALSE);
         }
     }
 
@@ -60,4 +61,7 @@ public class RecorridoUtils {
         marcados.set(posDeVertice, Boolean.TRUE);
     }
 
+    public List<Boolean> getMarcados() {
+        return this.marcados;
+    }
 }
