@@ -4,6 +4,7 @@ import bo.edu.uagrm.ficct.inf310.ed202102.grafos.excepciones.ExcepcionAristaNoEx
 import bo.edu.uagrm.ficct.inf310.ed202102.grafos.excepciones.ExcepcionAristaYaExiste;
 import bo.edu.uagrm.ficct.inf310.ed202102.grafos.excepciones.ExcepcionNumVerticesInvalido;
 import bo.edu.uagrm.ficct.inf310.ed202102.grafos.excepciones.ExceptionVerticeNoValido;
+import bo.edu.uagrm.ficct.inf310.ed202102.grafos.nopesados.Grafo;
 import bo.edu.uagrm.ficct.inf310.ed202102.grafos.nopesados.recorrido_utils.RecorridoUtils;
 import bo.edu.uagrm.ficct.inf310.ed202102.grafos.pesados.recorido_utils.AristaConCosto;
 import bo.edu.uagrm.ficct.inf310.ed202102.grafos.pesados.recorido_utils.RecorridoUtilsCostos;
@@ -320,32 +321,158 @@ public class GrafoPesado {
         return RecorridoUtilsCostos.INFINITO;
     }
 
-    public GrafoPesado algoritmoDeKruscal() {
-        GrafoPesado grafoAuxiliar = new GrafoPesado();
-
+    /**
+     *
+     * 16. Para un grafo no dirigido pesado implementar el algoritmo de Kruskal que muestre cual es el
+     * grafo encontrado por el algoritmo
+     * @return
+     * @throws ExcepcionNumVerticesInvalido
+     */
+    public GrafoPesado algoritmoDeKruscal() throws ExcepcionNumVerticesInvalido,
+            ExcepcionAristaYaExiste, ExcepcionAristaNoExiste {
+        GrafoPesado grafoAuxiliar = new GrafoPesado(this.cantidadDeVertices());
+        this.listaDeAristasConCosto = new LinkedList<>();
+        this.insertarEnAristaConCosto(this.listaDeAristasConCosto);
+        for (int i = 0; i < this.cantidadDeVertices(); i++) {
+            AristaConCosto unaAristaConCosto = this.listaDeAristasConCosto.get(i);
+            int posDeVerticeOrigen = unaAristaConCosto.getPosicionVerticeOrigen();
+            int posDeVerticeDestino = unaAristaConCosto.getPosicionVerticeDestino();
+            double costo = unaAristaConCosto.getCosto();
+            grafoAuxiliar.insertarArista(posDeVerticeOrigen, posDeVerticeDestino, costo);
+            if (grafoAuxiliar.hayCiclo()) {
+                grafoAuxiliar.eliminarArista(posDeVerticeOrigen, posDeVerticeDestino);
+            }
+        }
         return grafoAuxiliar;
     }
 
-    private void insertarPosOrigenDestinoYPeso() {
-
-        for (int i = 0; i < this.cantidadDeAristas(); i++) {
+    /**
+     *
+     * @param listaDeAristasConCosto
+     */
+    private void insertarEnAristaConCosto(List<AristaConCosto> listaDeAristasConCosto) {
+        for (int i = 0; i < this.cantidadDeVertices(); i++) {
             List<AdyacenteConPeso> adyacentesDelVerticeOrigen = this.listaDeAdyacencias.get(i);
             for (AdyacenteConPeso unAdyacenteConPeso : adyacentesDelVerticeOrigen) {
                 int posVerticeOrigen = i;
                 int posVerticeDestino = unAdyacenteConPeso.getIndiceDeVertice();
-
-                double costo = unAdyacenteConPeso.getPeso();
-                AristaConCosto unaAristaConCosto = new AristaConCosto(posVerticeOrigen, posVerticeDestino, costo);
-                this.listaDeAristasConCosto.add(unaAristaConCosto);
+                if (!seUsoArista(posVerticeOrigen, posVerticeDestino)) {
+                    double costo = unAdyacenteConPeso.getPeso();
+                    AristaConCosto unaAristaConCosto = new AristaConCosto(posVerticeOrigen, posVerticeDestino, costo);
+                    listaDeAristasConCosto.add(unaAristaConCosto);
+                }
             }
         }
+        Collections.sort(listaDeAristasConCosto);
     }
 
-    private boolean estaAdyacenciaProcesado(int posDeVerticeOrigen, int posDeVerticeDestino) {
-        if (existeAdyacencia(posDeVerticeOrigen, posDeVerticeDestino)
-                || existeAdyacencia(posDeVerticeDestino, posDeVerticeOrigen)){
-            return false;
+
+    /**
+     * @param posDeVerticeOrigen
+     * @param posDeVerticeDestino
+     * @return
+     */
+    private boolean seUsoArista(int posDeVerticeOrigen, int posDeVerticeDestino) {
+        if (posDeVerticeOrigen > posDeVerticeDestino) {
+            return true;
         }
         return false;
+    }
+
+    /**
+     * @return
+     * @throws ExcepcionNumVerticesInvalido
+     * @throws ExcepcionAristaYaExiste
+     */
+    public boolean hayCiclo() throws ExcepcionNumVerticesInvalido, ExcepcionAristaYaExiste {
+        if (this.cantidadDeVertices() == 0) {
+            return false;
+        }
+        Grafo grafoAuxiliar = new Grafo(this.cantidadDeVertices());
+        //this.controlDeMarcados.desmarcarTodos();
+        this.controlDeMarcados = new RecorridoUtils(this.cantidadDeVertices());
+        while (!controlDeMarcados.estanTodosMarcados()) {
+            int posVerticeNoMarcado = this.getPosVerticeNoMarcado(this.controlDeMarcados);
+            if (hayCiclo(posVerticeNoMarcado, grafoAuxiliar, this.controlDeMarcados)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * @param posDeVerticeEnTurno
+     * @param grafoAux
+     * @param controlDeMarcados
+     * @return
+     * @throws ExcepcionAristaYaExiste
+     */
+    private boolean hayCiclo(int posDeVerticeEnTurno, Grafo grafoAux, RecorridoUtils controlDeMarcados) throws ExcepcionAristaYaExiste {
+        controlDeMarcados.marcarVertice(posDeVerticeEnTurno);
+        //recorrido.add(posDeVerticeEnTurno);
+        Iterable<Integer> adyacentesDeVerticeEnTurno = this.adyacentesDeVertice(posDeVerticeEnTurno);
+        for (Integer posDeVerticeAdy : adyacentesDeVerticeEnTurno) {
+
+            if (controlDeMarcados.estaVerticeMarcado(posDeVerticeAdy)) {
+                if (!grafoAux.existeAdyacencia(posDeVerticeEnTurno, posDeVerticeAdy)) {
+                    return true;
+                }
+            }
+
+            if (!controlDeMarcados.estaVerticeMarcado(posDeVerticeAdy)) {
+                grafoAux.insertarArista(posDeVerticeEnTurno, posDeVerticeAdy);
+                if (hayCiclo(posDeVerticeAdy, grafoAux, controlDeMarcados)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     *
+     * @param controlDeMarcados
+     * @return
+     */
+    protected int getPosVerticeNoMarcado(RecorridoUtils controlDeMarcados) {
+        int i = 0;
+        for (Boolean marcado : controlDeMarcados.getMarcados()) {
+            if (!marcado) {
+                return i;
+            }
+            i++;
+        }
+        return GrafoPesado.POSICION_NO_VALIDA;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public List<AdyacenteConPeso> getListaDeAdyacencias(int posicion) {
+        return this.listaDeAdyacencias.get(posicion);
+    }
+
+    /**
+     *
+     * @param unGrafoPesado
+     * @return
+     * @throws ExcepcionNumVerticesInvalido
+     * @throws ExcepcionAristaYaExiste
+     */
+    public Grafo transformarGrafoPesadoANoPesado(GrafoPesado unGrafoPesado)
+            throws ExcepcionNumVerticesInvalido, ExcepcionAristaYaExiste {
+        Grafo grafoAux = new Grafo(unGrafoPesado.cantidadDeVertices());
+        for (int i = 0; i < this.cantidadDeVertices(); i++) {
+            List<AdyacenteConPeso> adyacentesConPeso = unGrafoPesado.getListaDeAdyacencias(i);
+            for (AdyacenteConPeso unAdyacenteConPeso : adyacentesConPeso) {
+                int posVerticeOrigen = i;
+                int posVerticeDestino = unAdyacenteConPeso.getIndiceDeVertice();
+                if (!this.seUsoArista(posVerticeOrigen, posVerticeDestino)) {
+                    grafoAux.insertarArista(posVerticeOrigen, posVerticeDestino);
+                }
+            }
+        }
+        return grafoAux;
     }
 }

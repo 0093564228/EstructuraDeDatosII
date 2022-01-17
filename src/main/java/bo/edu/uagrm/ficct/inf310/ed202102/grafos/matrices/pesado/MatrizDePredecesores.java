@@ -52,13 +52,6 @@ public class MatrizDePredecesores {
     }
 
     /**
-     * @param posDeVerticeAEliminar
-     */
-    public void eliminarVertice(int posDeVerticeAEliminar) {
-
-    }
-
-    /**
      *
      */
     public void mostrarMatrizDeAdyacencia() {
@@ -93,50 +86,12 @@ public class MatrizDePredecesores {
 
     /**
      * @param posVertice
-     * @return
-     */
-    public int gradoDeEntradaDeUnVertice(int posVertice) {
-        this.validarVertice(posVertice);
-        int cantidad = 0;
-        for (int i = 0; i < this.matrizAdyacencia.length; i++) {
-            if (this.matrizAdyacencia[i][posVertice] != -1) {
-                cantidad++;
-            }
-        }
-        return cantidad;
-    }
-
-    /**
-     * @param posVertice
-     * @return
-     */
-    public int gradoDeSalidaDeUnVertice(int posVertice) {
-        this.validarVertice(posVertice);
-        int cantidad = 0;
-        for (int i = 0; i < this.matrizAdyacencia[posVertice].length; i++) {
-            if (this.matrizAdyacencia[posVertice][i] != -1) {
-                cantidad++;
-            }
-        }
-        return cantidad;
-    }
-
-    /**
-     * @param posVertice
      */
     public void validarVertice(int posVertice) {
         if (posVertice < 0 || posVertice >= this.cantidadDeVertices()) {//rango
             throw new IllegalArgumentException("No existe vértice en la posición" +
                     posVertice + " en su grafo");//Esto es una excepcion en tiempo de ejecución.
         }
-    }
-
-    public boolean hayCiclo() {
-        return false;
-    }
-
-    public boolean hayCamino() {
-        return false;
     }
 
     public int[][] getMatrizAdyacencia() {

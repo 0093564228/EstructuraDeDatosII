@@ -66,7 +66,7 @@ public class MatrizDigrafo {
     }
 
     /**
-     *
+     *6. Para un grafo dirigido implemente un método o clase para encontrar la matriz de caminos
      */
     public void mostrarMatrizDeAdyacencia() {
         for (int i = 0; i < this.matrizAdyacencia.length; i++) {

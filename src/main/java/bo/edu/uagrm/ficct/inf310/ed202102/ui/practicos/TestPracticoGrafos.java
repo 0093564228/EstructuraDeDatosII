@@ -10,6 +10,8 @@ import bo.edu.uagrm.ficct.inf310.ed202102.grafos.matrices.pesado.MatrizDigrafoPe
 import bo.edu.uagrm.ficct.inf310.ed202102.grafos.nopesados.AlgoritmoWarshall;
 import bo.edu.uagrm.ficct.inf310.ed202102.grafos.nopesados.Digrafo;
 import bo.edu.uagrm.ficct.inf310.ed202102.grafos.nopesados.Grafo;
+import bo.edu.uagrm.ficct.inf310.ed202102.grafos.nopesados.recorridos.BFS;
+import bo.edu.uagrm.ficct.inf310.ed202102.grafos.nopesados.recorridos.DFS;
 import bo.edu.uagrm.ficct.inf310.ed202102.grafos.pesados.AlgoritmoDeFloyd;
 import bo.edu.uagrm.ficct.inf310.ed202102.grafos.pesados.DigrafoPesado;
 import bo.edu.uagrm.ficct.inf310.ed202102.grafos.pesados.GrafoPesado;
@@ -89,13 +91,15 @@ public class TestPracticoGrafos {
         System.out.println("Cantidad de vertices  despues de eliminar el vertice 6 en el digrafo no pesado: " + digrafoDePruebaNoPesado.cantidadDeVertices());
         System.out.println("Cantidad de aristas despues de eliminar el vertice 6 y arista (0, 2) en el digrafo no pesado: " + digrafoDePruebaNoPesado.cantidadDeAristas());
         System.out.println("----------------------------------------------------------------------------------");
+        //3. Para un grafo dirigido implementar método o clase para encontrar si hay ciclos sin usar matriz de caminos.
         System.out.println("Respuesta al enunciado 3: ");
         System.out.println("Método a probar con (digrafoDePruebaNoPesado)");
         System.out.println("Hay ciclo en el digrafo no pesado: " + digrafoDePruebaNoPesado.hayCiclo());
         System.out.println("----------------------------------------------------------------------------------");
+        //4. Para un grafo dirigido implementar método o clase para encontrar si hay ciclos usando la matriz de caminos
         System.out.println("Respuesta al enunciado 4: ");
         System.out.println("Método a probar con (warshallPrueba1)");
-        Digrafo digrafoParaMatriz1 = new Digrafo();
+        Digrafo digrafoParaMatriz1 = new Digrafo();//utlizo un digrafo para obtener la amtriz de adyacencia
         MatrizDigrafo matrizDirigidoPrueba1 = new MatrizDigrafo(5, digrafoParaMatriz1);
         matrizDirigidoPrueba1.insertarArista(0, 1);
         matrizDirigidoPrueba1.insertarArista(1, 4);
@@ -104,13 +108,16 @@ public class TestPracticoGrafos {
         matrizDirigidoPrueba1.insertarArista(4, 2);
         matrizDirigidoPrueba1.insertarArista(2, 4);
         matrizDirigidoPrueba1.insertarArista(2, 2);
-        AlgoritmoWarshall warshallPrueba1 = new AlgoritmoWarshall(matrizDirigidoPrueba1);
+        AlgoritmoWarshall warshallPrueba1 = new AlgoritmoWarshall(matrizDirigidoPrueba1);//cargo una matriz de adyacencia para verificar si hay ciclo con el algoritmo de warshall
         warshallPrueba1.procesarAlgoritmoWarshall();
         System.out.println("Hay ciclo en el digrafo no pesado, con matriz de camino(precondicion: algoritmo de warshall procesado): "
-                + warshallPrueba1.hayCiclo());
+                + warshallPrueba1.hayCiclo());//hay ciclo con matriz de camino
         System.out.println("----------------------------------------------------------------------------------");
+        //5. Para un grafo dirigido implementar un método o clase que sea capas de retornar los componentes
+        // de las islas que existen en dicho digrafo.
         System.out.println("Respuesta al enunciado 5: ");
         System.out.println("Método a probar con (digrafoDePruebaNoPesado2)");
+        System.out.println("Componentes de las islas que existe en un digrafo: ");
         Digrafo digrafoDePruebaNoPesado2 = new Digrafo(7);
         digrafoDePruebaNoPesado2.insertarArista(0, 1);
         digrafoDePruebaNoPesado2.insertarArista(2, 0);
@@ -120,6 +127,8 @@ public class TestPracticoGrafos {
         digrafoDePruebaNoPesado2.componentesDeLasIslasDeUnDigrafo();
 
         System.out.println("----------------------------------------------------------------------------------");
+        //6. Para un grafo dirigido implemente un método o clase para encontrar la matriz de caminos
+        // de dicho grafo dirigido
         System.out.println("Respuesta al enunciado 6: ");
         System.out.println("Método a probar con (matrizDigrafoPrueba2)");
         Digrafo digrafoParaMatriz2 = new Digrafo();
@@ -132,22 +141,30 @@ public class TestPracticoGrafos {
         matrizDigrafoPrueba2.insertarArista(2, 4);
         matrizDigrafoPrueba2.insertarArista(2, 2);
         System.out.println("Matriz de camino de un digrafo (digrafoParaMatriz2), sin haber procesado el algoritmo de warshall: ");
-        matrizDigrafoPrueba2.mostrarMatrizDeAdyacencia();
+        matrizDigrafoPrueba2.mostrarMatrizDeAdyacencia();// matriz de camino inicial sin procesar el algoritmo de warshall.
         System.out.println("----------------------------------------------------------------------------------");
+        //7. Para un grafo dirigido implementar un método o clase que permita determinar si el digrafo
+        // es débilmente conexo
         System.out.println("Respuesta al enunciado 7: ");
         System.out.println("Método a probar con (digrafoDePruebaNoPesado)");
         System.out.println("Es digrafo debilmente conexo: " + digrafoDePruebaNoPesado.esDebilmenteConexo());
         System.out.println("----------------------------------------------------------------------------------");
+        //8. Para un grafo dirigido implementar un método o clase que permita determinar si el digrafo es
+        // fuertemente conexo
         System.out.println("Respuesta al enunciado 8: ");
         System.out.println("Método a probar con (digrafoDePruebaNoPesado)");
         System.out.println("Es digrafo fuertemente conexo: " + digrafoDePruebaNoPesado.esFuertementeConexo());
         System.out.println("----------------------------------------------------------------------------------");
+        //9. Para un grafo no dirigido implementar un método o clase que permita encontrar si en dicho grafo hay ciclo.
         System.out.println("Respuesta al enunciado 9: ");
         System.out.println("Método a probar con (grafoDePruebaNoPesado)");
         System.out.println("Hay ciclo en el grafo no pesado: " + grafoDePruebaNoPesado.hayCiclo());
         System.out.println("----------------------------------------------------------------------------------");
+        //10. Para un grafo no dirigido implementar método o clase para encontrar los componentes de las
+        // diferentes islas que hay en dicho grafo
         System.out.println("Respuesta al enunciado 10: ");
         System.out.println("Método a probar con (grafoDePruebaNoPesado1)");
+        System.out.println("Componentes de las islas que existe en un grafo: ");
         Grafo grafoDePruebaNoPesado1 = new Grafo(8);
         grafoDePruebaNoPesado1.insertarArista(0, 3);
         grafoDePruebaNoPesado1.insertarArista(2, 0);
@@ -155,10 +172,13 @@ public class TestPracticoGrafos {
         grafoDePruebaNoPesado1.insertarArista(6, 4);
         grafoDePruebaNoPesado1.componentesDeLasIslasDeUnGrago();
         System.out.println("----------------------------------------------------------------------------------");
+        //11. Para un grafo dirigido implementar un algoritmo para encontrar el número de islas que hay en el grafo
         System.out.println("Respuesta al enunciado 11: ");
         System.out.println("Método a probar con (digrafoDePruebaNoPesado)");
         System.out.println("Número de islas que hay en un digrafo no pesado: " + digrafoDePruebaNoPesado.nroDeIslasEnUnDigrafo());
         System.out.println("----------------------------------------------------------------------------------");
+        //12. Para un grafo dirigido implementar el algoritmo de Wharsall, que luego muestre entre que vértices
+        // hay camino.
         System.out.println("Respuesta al enunciado 12: ");
         System.out.println("Método a probar con (warshallPrueba2)");
         Digrafo digrafoParaMatriz3 = new Digrafo();
@@ -171,10 +191,12 @@ public class TestPracticoGrafos {
         matrizDigrafoPrueba3.insertarArista(2, 4);
         matrizDigrafoPrueba3.insertarArista(2, 2);
         AlgoritmoWarshall warshallPrueba2 = new AlgoritmoWarshall(matrizDigrafoPrueba3);
-        warshallPrueba2.procesarAlgoritmoWarshall();
+        warshallPrueba2.procesarAlgoritmoWarshall();//<-algoritmo warshall
         warshallPrueba2.mostrarMatrizDeCamino();
         System.out.println("Entre que vertices hay camino(Precondicion algoritmo de warshall procesado): ");
         System.out.println("----------------------------------------------------------------------------------");
+        //13. Para un grafo dirigido usando la implementación del algoritmo de Floyd-Wharsall encontrar los
+        // caminos de costo mínimo entre un vértice a y el resto. Mostrar los costos y cuáles son los caminos
         System.out.println("Respuesta al enunciado 13: ");
         System.out.println("Método a probar con (floydPrueba)");
         DigrafoPesado digrafoPesadoParaMatriz = new DigrafoPesado();
@@ -189,11 +211,13 @@ public class TestPracticoGrafos {
         matrizPrueba.insertarAristaYSuPeso(3,4,2);
         matrizPrueba.insertarAristaYSuPeso(4,3,3);
         AlgoritmoDeFloyd floydPrueba = new AlgoritmoDeFloyd(matrizPrueba);
-        floydPrueba.procesarAlgoritmoFloyd();
-        floydPrueba.caminoDeCostoMinimo(4, 1);
+        floydPrueba.procesarAlgoritmoFloyd();//<- algoritmo Floyd-Warshall
+        floydPrueba.caminoDeCostoMinimo(4, 1);//<- caminos de costo minimo
         System.out.println("----------------------------------------------------------------------------------");
         System.out.println("Respuesta al enunciado 14: ");
         System.out.println("----------------------------------------------------------------------------------");
+        //15. Para un grafo dirigido pesado implementar el algoritmo de Dijkstra que muestre con que vértices
+        // hay caminos de costo mínimo partiendo desde un vértice v, con qué costo y cuáles son los caminos.
         System.out.println("Respuesta al enunciado 15: ");
         System.out.println("Método a probar con digrafoDePruebaPesado");
         DigrafoPesado digrafoDePruebaPesado = new DigrafoPesado(6);
@@ -212,10 +236,52 @@ public class TestPracticoGrafos {
         digrafoDePruebaPesado.insertarArista(5, 2, 70);
         digrafoDePruebaPesado.algoritmoDijkstra(0, 5);
         System.out.println("----------------------------------------------------------------------------------");
+        //16. Para un grafo no dirigido pesado implementar el algoritmo de Kruskal que muestre cual es el
+        // grafo encontrado por el algoritmo
         System.out.println("Respuesta al enunciado 16: ");
+        System.out.println("Método a probar con grafoDePruebaPesado");
+        GrafoPesado grafoDePruebaPesado = new GrafoPesado(10);
+
+        grafoDePruebaPesado.insertarArista(0, 1, 5);
+        grafoDePruebaPesado.insertarArista(0, 2, 10);
+        grafoDePruebaPesado.insertarArista(0, 3, 8);
+
+        grafoDePruebaPesado.insertarArista(1, 3, 6);
+        grafoDePruebaPesado.insertarArista(1, 5, 5);
+
+        grafoDePruebaPesado.insertarArista(2, 3, 7);
+        grafoDePruebaPesado.insertarArista(2, 4, 8);
+        grafoDePruebaPesado.insertarArista(2, 7, 15);
+
+        grafoDePruebaPesado.insertarArista(3, 4, 5);
+        grafoDePruebaPesado.insertarArista(3, 5, 11);
+
+        grafoDePruebaPesado.insertarArista(4, 6, 4);
+        grafoDePruebaPesado.insertarArista(4, 7, 3);
+
+        grafoDePruebaPesado.insertarArista(5, 6, 9);
+        grafoDePruebaPesado.insertarArista(5, 8, 7);
+
+        grafoDePruebaPesado.insertarArista(6, 7, 12);
+        grafoDePruebaPesado.insertarArista(6, 8, 4);
+        grafoDePruebaPesado.insertarArista(6, 9, 6);
+
+        grafoDePruebaPesado.insertarArista(7, 9, 12);
+
+        grafoDePruebaPesado.insertarArista(8, 9, 7);
+        GrafoPesado unGrafo1 = grafoDePruebaPesado.algoritmoDeKruscal();//<- algoritmo de Kruskal
+        Grafo unGrafoNoPesado = grafoDePruebaPesado.transformarGrafoPesadoANoPesado(unGrafo1);//para mostrar con los recorridos
+        System.out.println("Árbol de expansión de costo mínimo con algoritmo de kruskal, representado con el recorrido  BFS y DFS: ");
+        BFS bfsPrueba = new BFS(unGrafoNoPesado, 0);
+        System.out.println("BFS: "+ bfsPrueba.obtenerRecorrido());
+        DFS dfsPrueba = new DFS(unGrafoNoPesado, 0);
+        System.out.println("DFS: "+ dfsPrueba.obtenerRecorrido());
+
         System.out.println("----------------------------------------------------------------------------------");
         System.out.println("Respuesta al enunciado 17: ");
         System.out.println("----------------------------------------------------------------------------------");
+        //18. Para un grafo dirigido implementar al algoritmo de ordenamiento topológico. Debe mostrar cual
+        // es el orden de los vértices según este algoritmo.
         System.out.println("Respuesta al enunciado 18: ");
         System.out.println("Método a probar con digrafoDePruebaNoPesado1");
         Digrafo digrafoDePruebaNoPesado1 = new Digrafo(5);

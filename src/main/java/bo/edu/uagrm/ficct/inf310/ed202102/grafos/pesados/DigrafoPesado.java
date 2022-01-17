@@ -135,6 +135,14 @@ public class DigrafoPesado extends GrafoPesado{
         return super.peso(posVerticeOrigen, posVerticeDestino);
     }
 
+    /**
+     * 15. Para un grafo dirigido pesado implementar el algoritmo de Dijkstra que muestre con que vértices
+     * hay caminos de costo mínimo partiendo desde un vértice v, con qué costo y cuáles son los caminos.
+     * @param posDeVerticeOrigen
+     * @param posDeVerticeDestino
+     * @throws ExcepcionAristaNoExiste
+     * @throws ExceptionVerticeNoValido
+     */
     @Override
     public void algoritmoDijkstra(int posDeVerticeOrigen, int posDeVerticeDestino) throws ExcepcionAristaNoExiste, ExceptionVerticeNoValido {
         super.algoritmoDijkstra(posDeVerticeOrigen, posDeVerticeDestino);

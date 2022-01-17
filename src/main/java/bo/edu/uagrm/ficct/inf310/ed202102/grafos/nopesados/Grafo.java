@@ -189,6 +189,7 @@ public class Grafo {
     }
 
     /**
+     * 9. Para un grafo no dirigido implementar un método o clase que permita encontrar si en dicho grafo hay ciclo.
      * @return
      * @throws ExcepcionNumVerticesInvalido
      * @throws ExcepcionAristaYaExiste
@@ -305,7 +306,8 @@ public class Grafo {
     }
 
     /**
-     *
+     * 10. Para un grafo no dirigido implementar método o clase para encontrar los componentes de las
+     * diferentes islas que hay en dicho grafo
      * @throws ExcepcionNumVerticesInvalido
      * @throws ExcepcionAristaYaExiste
      */

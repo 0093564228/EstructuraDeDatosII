@@ -130,6 +130,8 @@ public class Digrafo extends Grafo {
 
 
     /**
+     *
+     * 3. Para un grafo dirigido implementar método o clase para encontrar si hay ciclos sin usar matriz de caminos.
      * @return
      */
     public boolean hayCiclo() {
@@ -208,6 +210,8 @@ public class Digrafo extends Grafo {
     }
 
     /**
+     * 8. Para un grafo dirigido implementar un método o clase que permita determinar si el digrafo es
+     *    fuertemente conexo
      * @return
      */
     public boolean esFuertementeConexo() {
@@ -226,9 +230,11 @@ public class Digrafo extends Grafo {
     }
 
     /**
-     * se puede solucionar con:
+     * Nota: se puede solucionar con:
      * matriz de adyacencia o lista de adyacencia
      *
+     * 7. Para un grafo dirigido implementar un método o clase que permita determinar si el digrafo
+     *    es débilmente conexo
      * @return
      */
     public boolean esDebilmenteConexo() {
@@ -275,6 +281,9 @@ public class Digrafo extends Grafo {
      */
 
     /**
+     * 11. Para un grafo dirigido implementar un algoritmo para encontrar el número de islas que hay en el grafo
+     *
+     *
      * No utilizo el método desmarcarVertice de la clase RecorridoUtils por que al momento de desmarcar toma la
      * cantidad de vertices inicial, como concecuencia produce un error al momento de eliminar un vertice y procesar
      * este metodo de nuevo. Para solucionar esto creo una nueva referencia a la clase RecorridoUtils dentro del
@@ -308,6 +317,8 @@ public class Digrafo extends Grafo {
     }
 
     /**
+     * //18. Para un grafo dirigido implementar al algoritmo de ordenamiento topológico. Debe mostrar cual
+     * es el orden de los vértices según este algoritmo.
      * @return
      */
     public List<Integer> ordenamientoTopologico() {
@@ -377,7 +388,7 @@ public class Digrafo extends Grafo {
     }
 
     /**
-     *
+     * 5. Para un grafo dirigido implementar un método o clase que sea capas de retornar los componentes
      */
     public void componentesDeLasIslasDeUnDigrafo() throws ExcepcionAristaYaExiste, ExcepcionNumVerticesInvalido {
         Digrafo digrafoAux = new Digrafo(this.cantidadDeVertices());

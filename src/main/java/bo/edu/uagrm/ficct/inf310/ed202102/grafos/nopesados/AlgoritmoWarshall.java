@@ -35,6 +35,10 @@ public class AlgoritmoWarshall {
     }
 
     /**
+     * 12. Para un grafo dirigido implementar el algoritmo de Wharsall, que luego muestre entre que vértices
+     * hay camino.
+     *
+     *
     Precondicion: existe un digrafo para procesar
      */
     public void procesarAlgoritmoWarshall() {
@@ -62,7 +66,6 @@ public class AlgoritmoWarshall {
     }
 
     /**
-     * falta probar
      * @param posVerticeOrigen
      * @param posVerticeDestino
      * @return
@@ -77,7 +80,7 @@ public class AlgoritmoWarshall {
     }
 
     /**
-     * falta probar
+     * 4. Para un grafo dirigido implementar método o clase para encontrar si hay ciclos usando la matriz de caminos
      * @return
      */
     public boolean hayCiclo() {
@@ -88,9 +91,5 @@ public class AlgoritmoWarshall {
         }
         return false;
     }
-    public void ordenamientoToplogico(int posVerticePartida) {
-
-    }
-
 
 }
