@@ -25,7 +25,12 @@ public class ArbolMViasBusqueda<K extends Comparable<K>, V> implements IArbolBus
         this.orden = ordenDelArbol;
     }
 
-    //5
+    /**
+     *
+     * @param claveAInsertar
+     * @param valorAInsertar
+     * @throws NullPointerException
+     */
     @Override
     public void insertar(K claveAInsertar, V valorAInsertar) throws NullPointerException {
         if (claveAInsertar == (K) NodoMVias.datoVacio()) {
@@ -71,7 +76,13 @@ public class ArbolMViasBusqueda<K extends Comparable<K>, V> implements IArbolBus
         }//fin while
     }
 
-    //5.1
+
+    /**
+     * 5.1
+     * @param nodoActual
+     * @param claveABuscar
+     * @return
+     */
     protected int getPosicionDeClave(NodoMVias<K, V> nodoActual, K claveABuscar) {
         for (int i = 0; i < nodoActual.cantidadDeClavesNoVacias(); i++) {
             K claveActual = nodoActual.getClave(i);
@@ -82,7 +93,12 @@ public class ArbolMViasBusqueda<K extends Comparable<K>, V> implements IArbolBus
         return ArbolMViasBusqueda.POSICION_NO_VALIDA;
     }
 
-    //5.2
+    /**
+     * 5.2
+     * @param nodoActual
+     * @param claveABuscar
+     * @return
+     */
     protected int getPosicionPorDondeBajar(NodoMVias<K, V> nodoActual, K claveABuscar) {
         for (int i = 0; i < nodoActual.cantidadDeClavesNoVacias(); i++) {
             K claveActual = nodoActual.getClave(i);
@@ -90,14 +106,21 @@ public class ArbolMViasBusqueda<K extends Comparable<K>, V> implements IArbolBus
                 return i;
             }
         }
-        return this.orden - 1;
+        return nodoActual.cantidadDeClavesNoVacias();
     }
 
+    /**
+     * Inserta clave y valor en un nodo en orden ascendente
+     *  Precondición
+     *  1. Debe existir al menos un dato en el nodo
+     *  2. El nodo no debe estar lleno
+     *  3. La última posición del nodo no debe tener un dato
+     * @param nodoActual
+     * @param claveAInsertar
+     * @param valorAInsertar
+     */
     //5.3
-    //Precondición
-    // 1. Debe existir al menos un dato en el nodo
-    // 2. El nodo no debe estar lleno
-    // 3. La última posición del nodo no debe tener un dato
+
     protected void insertarClaveYValorEnNodo(NodoMVias<K, V> nodoActual, K claveAInsertar, V valorAInsertar) {
         int posicionDondeInsertar = getPosicionDondeInsertar(nodoActual, claveAInsertar);
         int posicionActual = nodoActual.cantidadDeClavesNoVacias();
@@ -112,7 +135,12 @@ public class ArbolMViasBusqueda<K extends Comparable<K>, V> implements IArbolBus
         nodoActual.setValor(posicionDondeInsertar, valorAInsertar);
     }
 
-    //5.4
+    /**
+     * 5.4
+     * @param nodoActual
+     * @param claveAInsertar
+     * @return
+     */
     protected int getPosicionDondeInsertar(NodoMVias<K, V> nodoActual, K claveAInsertar) {
         for (int i = 0; i < nodoActual.cantidadDeClavesNoVacias(); i++) {
             K claveActual = nodoActual.getClave(i);
@@ -123,7 +151,12 @@ public class ArbolMViasBusqueda<K extends Comparable<K>, V> implements IArbolBus
         return nodoActual.cantidadDeClavesNoVacias();
     }
 
-    //10
+    /**
+     * 10
+     * @param claveAEliminar
+     * @return
+     * @throws ExceptionClaveNoExiste
+     */
     @Override
     public V eliminar(K claveAEliminar) throws ExceptionClaveNoExiste {
         V valorAEliminar = this.buscar(claveAEliminar);
@@ -141,7 +174,7 @@ public class ArbolMViasBusqueda<K extends Comparable<K>, V> implements IArbolBus
             K claveEnTurno = nodoActual.getClave(i);
             if (claveAEliminar.compareTo(claveEnTurno) == 0) { // lo encontre la clave a eliminar
                 if (nodoActual.esHoja()) {
-                    this.eliminarClaveYValor(nodoActual, i);//elimina el dato deja las claves ordenadas, en este punto el nodo podria estar vacio de datos.
+                    this.eliminarClaveYValor(nodoActual, i);//elimina el dato dejando las claves ordenadas, en este punto el nodo podria estar vacio, es decir sin claves.
                     if (nodoActual.cantidadDeClavesNoVacias() == 0) {
                         return NodoMVias.nodoVacio();
                     }
@@ -251,7 +284,13 @@ public class ArbolMViasBusqueda<K extends Comparable<K>, V> implements IArbolBus
         nodoActual.setValor(posicion, (V) NodoMVias.datoVacio());
     }
 
-    //4
+
+
+    /**
+     * 4
+     * @param claveABuscar
+     * @return
+     */
     @Override
     public V buscar(K claveABuscar) {
         if (claveABuscar == NodoMVias.datoVacio()) {
@@ -376,6 +415,10 @@ public class ArbolMViasBusqueda<K extends Comparable<K>, V> implements IArbolBus
         return recorrido;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public List<K> recorridoEnPreOrden() {
         List<K> recorrido = new LinkedList<>();
@@ -383,6 +426,11 @@ public class ArbolMViasBusqueda<K extends Comparable<K>, V> implements IArbolBus
         return recorrido;
     }
 
+    /**
+     *
+     * @param nodoActual
+     * @param recorrido
+     */
     private void recorridoEnPreOrden(NodoMVias<K, V> nodoActual, List<K> recorrido) {
         if (NodoMVias.esNodoVacio(nodoActual)) {
             return;
@@ -395,14 +443,21 @@ public class ArbolMViasBusqueda<K extends Comparable<K>, V> implements IArbolBus
 
     }
 
-    //6 Recursivo
+    /**
+     * 6 Recursivo
+     * @return
+     */
     public List<K> recorridoEnInOrden() {
         List<K> recorrido = new ArrayList<>();
         this.recorridoEnInOrden(this.raiz, recorrido);
         return recorrido;
     }
 
-    //6.1
+    /**
+     * 6.1
+     * @param nodoActual
+     * @param recorrido
+     */
     private void recorridoEnInOrden(NodoMVias<K, V> nodoActual, List<K> recorrido) {
         //n == 0
         if (NodoMVias.esNodoVacio(nodoActual)) {
@@ -471,7 +526,6 @@ public class ArbolMViasBusqueda<K extends Comparable<K>, V> implements IArbolBus
     }
 
     //Tarea para el 23 de noviembre.
-    //Terminar el método insertar.
 
     //Cantidad de claves vacias iterativo, implementado con recorrido por niveles.
     public int cantidadDeClavesVacias() {
@@ -688,7 +742,6 @@ public class ArbolMViasBusqueda<K extends Comparable<K>, V> implements IArbolBus
             nivelActual++;
         }
 
-
         return true;
     }
 
@@ -745,6 +798,5 @@ public class ArbolMViasBusqueda<K extends Comparable<K>, V> implements IArbolBus
         }
         return true;
     }
-
 }
 

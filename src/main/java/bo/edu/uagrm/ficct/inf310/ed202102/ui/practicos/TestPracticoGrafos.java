@@ -247,14 +247,14 @@ public class TestPracticoGrafos {
         grafoDePruebaPesado.insertarArista(0, 3, 8);
 
         grafoDePruebaPesado.insertarArista(1, 3, 6);
-        grafoDePruebaPesado.insertarArista(1, 5, 5);
+        //grafoDePruebaPesado.insertarArista(1, 5, 5);
 
         grafoDePruebaPesado.insertarArista(2, 3, 7);
-        grafoDePruebaPesado.insertarArista(2, 4, 8);
-        grafoDePruebaPesado.insertarArista(2, 7, 15);
+        //grafoDePruebaPesado.insertarArista(2, 4, 8);
+        //grafoDePruebaPesado.insertarArista(2, 7, 15);
 
-        grafoDePruebaPesado.insertarArista(3, 4, 5);
-        grafoDePruebaPesado.insertarArista(3, 5, 11);
+        //grafoDePruebaPesado.insertarArista(3, 4, 5);
+        //grafoDePruebaPesado.insertarArista(3, 5, 11);
 
         grafoDePruebaPesado.insertarArista(4, 6, 4);
         grafoDePruebaPesado.insertarArista(4, 7, 3);
@@ -276,7 +276,7 @@ public class TestPracticoGrafos {
         System.out.println("BFS: "+ bfsPrueba.obtenerRecorrido());
         DFS dfsPrueba = new DFS(unGrafoNoPesado, 0);
         System.out.println("DFS: "+ dfsPrueba.obtenerRecorrido());
-
+        unGrafoNoPesado.componentesDeLasIslasDeUnGrago();//era mostrar con los componentes de las islas y no con los recorridos
         System.out.println("----------------------------------------------------------------------------------");
         System.out.println("Respuesta al enunciado 17: ");
         System.out.println("----------------------------------------------------------------------------------");

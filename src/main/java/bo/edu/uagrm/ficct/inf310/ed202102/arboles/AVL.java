@@ -6,7 +6,12 @@ import java.util.List;
 public class AVL<K extends Comparable<K>, V> extends ArbolBinarioBusqueda<K, V>{
     private static final byte TOPE_DIFERENCIA = 1;
 
-    //1
+    /**
+     * 1
+     * @param claveAInsertar
+     * @param valorAInsertar
+     * @throws NullPointerException
+     */
     @Override
     public void insertar(K claveAInsertar, V valorAInsertar) throws NullPointerException {
         if (valorAInsertar == null) {
@@ -15,7 +20,15 @@ public class AVL<K extends Comparable<K>, V> extends ArbolBinarioBusqueda<K, V>{
         this.raiz = this.insertar(this.raiz, claveAInsertar, valorAInsertar);
     }
 
-    //1.1
+
+
+    /**
+     * 1.1
+     * @param nodoActual
+     * @param claveAInsertar
+     * @param valorAInsertar
+     * @return
+     */
     private NodoBinario<K, V> insertar(NodoBinario<K, V> nodoActual, K claveAInsertar, V valorAInsertar) {
         if (NodoBinario.esNodoVacio(nodoActual)) {
             NodoBinario<K, V> nuevoNodo = new NodoBinario<K, V>(claveAInsertar, valorAInsertar);
@@ -43,6 +56,11 @@ public class AVL<K extends Comparable<K>, V> extends ArbolBinarioBusqueda<K, V>{
         return nodoActual;
     }
 
+    /**
+     *
+     * @param nodoActual
+     * @return
+     */
     private NodoBinario<K,V> balancear(NodoBinario<K,V> nodoActual) {
         int alturaPorIzquierda = altura(nodoActual.getHijoIzquierdo());
         int alturaPorDerecha   = altura(nodoActual.getHijoDerecho());
@@ -71,17 +89,33 @@ public class AVL<K extends Comparable<K>, V> extends ArbolBinarioBusqueda<K, V>{
         return nodoActual;
     }
 
+    /**
+     * @param nodoActual
+     * @return
+     */
     private NodoBinario<K,V> rotacionDobleALaIzquierda(NodoBinario<K,V> nodoActual) {
         NodoBinario<K, V> primerNodoARotar = rotacionSimpleALaDerecha(nodoActual.getHijoDerecho());
         nodoActual.setHijoDerecho(primerNodoARotar);
         return rotacionSimpleALaIzquierda(nodoActual);
 
     }
+
+    /**
+     *
+     * @param nodoActual
+     * @return
+     */
     private NodoBinario<K, V> rotacionDobleALaDerecha(NodoBinario<K, V> nodoActual) {
         NodoBinario<K, V> primerNodoARotar = rotacionSimpleALaIzquierda(nodoActual.getHijoIzquierdo());
         nodoActual.setHijoIzquierdo(primerNodoARotar);
         return rotacionSimpleALaDerecha(nodoActual);
     }
+
+    /**
+     *
+     * @param nodoActual
+     * @return
+     */
     private NodoBinario<K,V> rotacionSimpleALaDerecha(NodoBinario<K,V> nodoActual) {
         NodoBinario<K, V> nodoARotar = nodoActual.getHijoIzquierdo();
         nodoActual.setHijoIzquierdo(nodoARotar.getHijoDerecho());
@@ -89,6 +123,11 @@ public class AVL<K extends Comparable<K>, V> extends ArbolBinarioBusqueda<K, V>{
         return nodoARotar;
     }
 
+    /**
+     *
+     * @param nodoActual
+     * @return
+     */
     private NodoBinario<K,V> rotacionSimpleALaIzquierda(NodoBinario<K,V> nodoActual){
         NodoBinario<K, V> nodoARotar = nodoActual.getHijoDerecho();
         nodoActual.setHijoDerecho(nodoARotar.getHijoIzquierdo());
@@ -97,6 +136,12 @@ public class AVL<K extends Comparable<K>, V> extends ArbolBinarioBusqueda<K, V>{
 
     }
 
+    /**
+     *
+     * @param claveAEliminar
+     * @return
+     * @throws ExceptionClaveNoExiste
+     */
     @Override
     public V eliminar(K claveAEliminar) throws ExceptionClaveNoExiste {
         V valorAEliminar = this.buscar(claveAEliminar);
@@ -106,6 +151,13 @@ public class AVL<K extends Comparable<K>, V> extends ArbolBinarioBusqueda<K, V>{
         this.raiz = eliminar(this.raiz, claveAEliminar);
         return valorAEliminar;
     }
+
+    /**
+     *
+     * @param nodoActual
+     * @param claveAEliminar
+     * @return
+     */
     private NodoBinario<K, V> eliminar(NodoBinario<K, V> nodoActual, K claveAEliminar) {
         K claveActual = nodoActual.getClave();
         if (claveAEliminar.compareTo(claveActual) < 0) {

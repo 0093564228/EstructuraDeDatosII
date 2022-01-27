@@ -9,6 +9,7 @@ import bo.edu.uagrm.ficct.inf310.ed202102.grafos.nopesados.recorrido_utils.Recor
 import bo.edu.uagrm.ficct.inf310.ed202102.grafos.pesados.recorido_utils.AristaConCosto;
 import bo.edu.uagrm.ficct.inf310.ed202102.grafos.pesados.recorido_utils.RecorridoUtilsCostos;
 import bo.edu.uagrm.ficct.inf310.ed202102.grafos.pesados.recorido_utils.RecorridoUtilsPredecesores;
+import org.omg.PortableServer.AdapterActivator;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -474,5 +475,34 @@ public class GrafoPesado {
             }
         }
         return grafoAux;
+    }
+
+
+    public void algoritmoDePrim() throws ExcepcionNumVerticesInvalido {
+        GrafoPesado grafoAux = new GrafoPesado();
+        grafoAux.insertarVertice();
+        this.controlDeMarcados = new RecorridoUtils(this.cantidadDeVertices());
+        int posDeVertice = 0;
+        this.controlDeMarcados.marcarVertice(posDeVertice);
+        while(!this.controlDeMarcados.estanTodosMarcados()) {
+
+        }
+
+    }
+
+    private int getAdyacenteConMenorCosto(int posVerticeOrigen, int posVerticeDestino, List<List<AdyacenteConPeso>> listaDeAdyacencias) {
+        List<AdyacenteConPeso> adyacentesAlvertice = listaDeAdyacencias.get(posVerticeOrigen);
+        AdyacenteConPeso adyacenteConPesoIncial = adyacentesAlvertice.get(0);
+        double menor = adyacenteConPesoIncial.getPeso();
+        int posDeVerticeAdyacente = GrafoPesado.POSICION_NO_VALIDA;
+
+        for (AdyacenteConPeso unAdyacenteConpeso: adyacentesAlvertice) {
+            double unPeso = unAdyacenteConpeso.getPeso();
+            if (unPeso < menor) {
+                menor = unPeso;
+                posDeVerticeAdyacente = unAdyacenteConpeso.getIndiceDeVertice();
+            }
+        }
+        return posDeVerticeAdyacente;
     }
 }

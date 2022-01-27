@@ -21,6 +21,9 @@ public class TestGrafoNoPesado {
         grafoDePrueba = new Grafo(nro1);
         System.out.println();
 
+        grafoDePrueba.insertarArista(1, 0);
+        grafoDePrueba.insertarArista(5, 7);
+
         grafoDePrueba.insertarArista(0, 3);
         grafoDePrueba.insertarArista(2, 0);
         grafoDePrueba.insertarArista(4, 7);

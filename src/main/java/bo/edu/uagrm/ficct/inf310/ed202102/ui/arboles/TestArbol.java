@@ -86,7 +86,7 @@ public class TestArbol {
         System.out.println("Tamaño del arbol: " + arbolDePrueba.size());
 
 
-        System.out.println("Se elimino el dato: " + arbolDePrueba.eliminar(200));
+        System.out.println("Se elimino el dato: " + arbolDePrueba.eliminar(30));
         System.out.println("Recorrido por niveles: " + arbolDePrueba.recorridoPorNiveles());
     //    System.out.println("Se elimino el dato: " + arbolDePrueba.eliminar(160));
        // System.out.println("Recorrido por niveles: " + arbolDePrueba.recorridoPorNiveles());

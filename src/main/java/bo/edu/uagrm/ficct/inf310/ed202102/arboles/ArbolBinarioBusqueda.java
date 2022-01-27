@@ -16,8 +16,16 @@ public class ArbolBinarioBusqueda<K extends Comparable<K>, V> implements IArbolB
      */
     //validar misma cantidad de valores
     //16
+    /**
+     *
+     * @param clavesInOrden
+     * @param valoresInOrden
+     * @param clavesNoInOrden
+     * @param valoresNoInOrden
+     * @param esConPreOrden
+     */
     public ArbolBinarioBusqueda(List<K> clavesInOrden, List<V> valoresInOrden,
-                                List<K> clavesNoInOrden, List<V> valoresNoInOrden, boolean esConPreOrden) {
+            List<K> clavesNoInOrden, List<V> valoresNoInOrden, boolean esConPreOrden) {
         if (esConPreOrden) {
             this.raiz = this.reconstruirConPreOrden(clavesInOrden, valoresInOrden,
                     clavesNoInOrden, valoresNoInOrden);
@@ -28,8 +36,16 @@ public class ArbolBinarioBusqueda<K extends Comparable<K>, V> implements IArbolB
     }
 
     //16.1
+    /**
+     *
+     * @param listaDeClavesInOrden
+     * @param listaDeValoresInOrden
+     * @param listaDeClavesPreOrden
+     * @param listaDeValoresPreOrden
+     * @return
+     */
     private NodoBinario<K, V> reconstruirConPreOrden(List<K> listaDeClavesInOrden, List<V> listaDeValoresInOrden,
-                                                     List<K> listaDeClavesPreOrden, List<V> listaDeValoresPreOrden) {
+            List<K> listaDeClavesPreOrden, List<V> listaDeValoresPreOrden) {
 
         if (listaDeClavesPreOrden.isEmpty()) {
             return NodoBinario.nodoVacio();
@@ -50,7 +66,6 @@ public class ArbolBinarioBusqueda<K extends Comparable<K>, V> implements IArbolB
         NodoBinario<K, V> hijoIzquierdo = reconstruirConPreOrden(subListIzquierdaClavesInOrden, subListIzquierdaValoresInOrden,
                 subListIzquierdaClavesPreOrden, subListIzquierdaValoresPreOrden);
 
-
         List<K> subListDerechaClavesPreOrden = listaDeClavesPreOrden.subList(posicion, listaDeClavesPreOrden.size() - 1);
         List<V> subListDerechaValoresPreOrden = listaDeValoresPreOrden.subList(posicion, listaDeClavesPreOrden.size() - 1);
         List<K> subListDerechaClavesInOrden = listaDeClavesInOrden.subList(posicion + 1, listaDeClavesInOrden.size());
@@ -66,8 +81,16 @@ public class ArbolBinarioBusqueda<K extends Comparable<K>, V> implements IArbolB
     }
 
     //16.2
+    /**
+     *
+     * @param listaDeClavesPostOrden
+     * @param listaDeValoresPostOrden
+     * @param listaDeClavesInOrden
+     * @param listaDeValoresInOrden
+     * @return
+     */
     private NodoBinario<K, V> reconstruirConPostOrden(List<K> listaDeClavesPostOrden, List<V> listaDeValoresPostOrden,
-                                                      List<K> listaDeClavesInOrden, List<V> listaDeValoresInOrden) {
+            List<K> listaDeClavesInOrden, List<V> listaDeValoresInOrden) {
         if (listaDeClavesPostOrden.isEmpty()) {
             return NodoBinario.nodoVacio();
         }
@@ -87,7 +110,6 @@ public class ArbolBinarioBusqueda<K extends Comparable<K>, V> implements IArbolB
         NodoBinario<K, V> hijoIzquierdo = reconstruirConPostOrden(subListIzquierdaClavesPostOrden, subListIzquierdaValoresPostOrden,
                 subListIzquierdaClavesInOrden, subListIzquierdaValoresInOrden);
 
-
         List<K> subListDerechaClavesPostOrden = listaDeClavesPostOrden.subList(posicion, listaDeClavesPostOrden.size() - 1);
         List<V> subListDerechaValoresPostOrden = listaDeValoresPostOrden.subList(posicion, listaDeValoresPostOrden.size() - 1);
         List<K> subListDerechaClavesInOrden = listaDeClavesInOrden.subList(posicion + 1, listaDeClavesInOrden.size());
@@ -102,9 +124,9 @@ public class ArbolBinarioBusqueda<K extends Comparable<K>, V> implements IArbolB
         return nodoActual;
     }
 
-
-    /** 16.3
-     * Retorna la posición de una clave de una lista de claves
+    /**
+     * 16.3 Retorna la posición de una clave de una lista de claves
+     *
      * @param litaDeClaves
      * @param claveABuscar
      * @return
@@ -119,8 +141,9 @@ public class ArbolBinarioBusqueda<K extends Comparable<K>, V> implements IArbolB
         return -1;
     }
 
-    /** 16.4
-     * Retorna una lista de valores.
+    /**
+     * 16.4 Retorna una lista de valores.
+     *
      * @param listaDeClaves
      * @return
      */
@@ -196,15 +219,15 @@ public class ArbolBinarioBusqueda<K extends Comparable<K>, V> implements IArbolB
     private NodoBinario<K, V> eliminar(NodoBinario<K, V> nodoActual, K claveAEliminar) {
         K claveActual = nodoActual.getClave();
         if (claveAEliminar.compareTo(claveActual) < 0) {
-            NodoBinario<K, V> aparenteNuevoHijoIzquierdo =
-                    eliminar(nodoActual.getHijoIzquierdo(), claveAEliminar);
+            NodoBinario<K, V> aparenteNuevoHijoIzquierdo
+                    = eliminar(nodoActual.getHijoIzquierdo(), claveAEliminar);
             nodoActual.setHijoIzquierdo(aparenteNuevoHijoIzquierdo);
             return nodoActual;
         }
 
         if (claveAEliminar.compareTo(claveActual) > 0) {
-            NodoBinario<K, V> aparenteNuevoHijoDerecho =
-                    eliminar(nodoActual.getHijoDerecho(), claveAEliminar);
+            NodoBinario<K, V> aparenteNuevoHijoDerecho
+                    = eliminar(nodoActual.getHijoDerecho(), claveAEliminar);
             nodoActual.setHijoDerecho(aparenteNuevoHijoDerecho);
             return nodoActual;
         }
@@ -215,13 +238,13 @@ public class ArbolBinarioBusqueda<K extends Comparable<K>, V> implements IArbolB
             return NodoBinario.nodoVacio();
         }
         //caso2
-        if (!nodoActual.esVacioHijoIzquierdo() &&
-                nodoActual.esVacioHijoDerecho()) {
+        if (!nodoActual.esVacioHijoIzquierdo()
+                && nodoActual.esVacioHijoDerecho()) {
             return nodoActual.getHijoIzquierdo();
         }
 
-        if (nodoActual.esVacioHijoIzquierdo() &&
-                !nodoActual.esVacioHijoDerecho()) {
+        if (nodoActual.esVacioHijoIzquierdo()
+                && !nodoActual.esVacioHijoDerecho()) {
             return nodoActual.getHijoDerecho();
         }
 
@@ -291,8 +314,8 @@ public class ArbolBinarioBusqueda<K extends Comparable<K>, V> implements IArbolB
 
                 if (!pilaDeNodos.isEmpty()) {
                     NodoBinario<K, V> nodoDelTope = pilaDeNodos.peek();
-                    if (!nodoDelTope.esVacioHijoDerecho() &&
-                            nodoDelTope.getHijoDerecho() != nodoActual) {
+                    if (!nodoDelTope.esVacioHijoDerecho()
+                            && nodoDelTope.getHijoDerecho() != nodoActual) {
                         meterEnPilaParaPostOrden(nodoDelTope.getHijoDerecho(), pilaDeNodos);
                     }
                 }
@@ -302,11 +325,20 @@ public class ArbolBinarioBusqueda<K extends Comparable<K>, V> implements IArbolB
     }
 
     //11
+    /**
+     *
+     * @return
+     */
     public int sizeRecursivo() {
         return sizeRecursivo(this.raiz);
     }
 
     //11.1
+    /**
+     *
+     * @param nodoActual
+     * @return
+     */
     private int sizeRecursivo(NodoBinario<K, V> nodoActual) {
         if (NodoBinario.esNodoVacio(nodoActual)) {
             return 0;
@@ -338,8 +370,11 @@ public class ArbolBinarioBusqueda<K extends Comparable<K>, V> implements IArbolB
         }
     }
 
-    //Con reoccrrido por niveles
-    //13
+    /**
+     * 13 Con reoccrrido por niveles
+     *
+     * @return
+     */
     public int alturaIterativo() {
         int alturaArbol = 0;
         if (!this.esArbolVacio()) {
@@ -365,6 +400,9 @@ public class ArbolBinarioBusqueda<K extends Comparable<K>, V> implements IArbolB
     }
 
     //1
+    /**
+     *
+     */
     @Override
     public void vaciar() {
         this.raiz = NodoBinario.nodoVacio();//Pierde la referencia a la raiz, garbage collection ve que no hay ninguna variable
@@ -377,6 +415,11 @@ public class ArbolBinarioBusqueda<K extends Comparable<K>, V> implements IArbolB
     }
 
     //6
+    /**
+     * Iterativo
+     *
+     * @return
+     */
     @Override
     public List<K> recorridoPorNiveles() {
         List<K> recorrido = new ArrayList<>();
@@ -401,6 +444,11 @@ public class ArbolBinarioBusqueda<K extends Comparable<K>, V> implements IArbolB
     }
 
     //7
+    /**
+     * Iterativo
+     *
+     * @return
+     */
     @Override
     public List<K> recorridoEnPreOrden() {
         List<K> recorrido = new ArrayList<>();
@@ -426,6 +474,11 @@ public class ArbolBinarioBusqueda<K extends Comparable<K>, V> implements IArbolB
     }
 
     //9
+    /**
+     * Recursivo
+     *
+     * @return
+     */
     @Override
     public List<K> recorridoEnInOrden() {
         List<K> recorrido = new ArrayList<>();
@@ -446,6 +499,11 @@ public class ArbolBinarioBusqueda<K extends Comparable<K>, V> implements IArbolB
     }
 
     //8
+    /**
+     * Recursivo
+     *
+     * @return
+     */
     @Override
     public List<K> recorridoEnPostOrden() {
         List<K> recorrido = new ArrayList<>();
@@ -460,8 +518,8 @@ public class ArbolBinarioBusqueda<K extends Comparable<K>, V> implements IArbolB
 
                 if (!pilaDeNodos.isEmpty()) {
                     NodoBinario<K, V> nodoDelTope = pilaDeNodos.peek();
-                    if (!nodoDelTope.esVacioHijoDerecho() &&
-                            nodoDelTope.getHijoDerecho() != nodoActual) {
+                    if (!nodoDelTope.esVacioHijoDerecho()
+                            && nodoDelTope.getHijoDerecho() != nodoActual) {
                         meterEnPilaParaPostOrden(nodoDelTope.getHijoDerecho(), pilaDeNodos);
                     }
                 }
@@ -485,9 +543,8 @@ public class ArbolBinarioBusqueda<K extends Comparable<K>, V> implements IArbolB
 
     /*
     Ejercios para el 28 de Octubre de 2021
-    */
+     */
     //1. Desarrollar un método que retorne la cantidad de nodos que tiene solo un hijo diferente de vacio.
-
     //Iterativo, con recorrido por niveles.
     public int cantidadDeNodosConUnSoloHijoIterativo() {
         int cantidad = 0;
@@ -540,10 +597,8 @@ public class ArbolBinarioBusqueda<K extends Comparable<K>, V> implements IArbolB
         return cantidadPorIzquierda + cantidadPorDerecha;
     }
 
-
     //2. Desarrollar un método que retorne verdadero si los nodos que no son hojas en el arbol solo tienen un hijo.
     // Falso en caso contrario.
-
     //Iterativo, con recorrido por niveles.
     public boolean esSoloUnHijoIterativo() {
         if (!this.esArbolVacio()) {
@@ -564,7 +619,6 @@ public class ArbolBinarioBusqueda<K extends Comparable<K>, V> implements IArbolB
                 if (!nodoActual.esVacioHijoDerecho()) {
                     colaDeNodos.offer(nodoActual.getHijoDerecho());
                 }
-
             }
         }
         return true;
@@ -600,10 +654,8 @@ public class ArbolBinarioBusqueda<K extends Comparable<K>, V> implements IArbolB
         return true;
     }
 
-
     //3. Desarrollar un metodo que retorne verdadero si los nodos que no son hojas antes del nivel n en el arbol solo
     // tienen un hijo. Falso en caso contrario.
-
     //Iterativo, con recorrido por niveles.
     public boolean esSoloUnHijoAntesDeNivelIterativo(int nivel) {
         int controlNivel = 0;
@@ -702,7 +754,6 @@ public class ArbolBinarioBusqueda<K extends Comparable<K>, V> implements IArbolB
 
     /*8. Implemente un método recursivo que retorne la cantidad de nodos que tienen un solo hijo no vació*/
     public int cantidadDeNodosConUnSoloHijo() {
-
         return cantidadDeNodosConUnSoloHijo(this.raiz);
     }
 
@@ -753,13 +804,12 @@ public class ArbolBinarioBusqueda<K extends Comparable<K>, V> implements IArbolB
 
     /*11. Implemente un método privado que reciba un nodo binario de un árbol binario y que
      retorne cuál sería su predecesor inorden de la clave de dicho nodo.*/
-
     public K predecesorInOrden(K clave) {
         NodoBinario<K, V> nodoABuscar = this.buscarNodo(clave);
         return predecesorInOrden(nodoABuscar.getHijoIzquierdo());
     }
 
-    private NodoBinario<K,V> buscarNodo(K claveABuscar) {
+    private NodoBinario<K, V> buscarNodo(K claveABuscar) {
         if (claveABuscar == null) {
             return null;
         }
@@ -790,7 +840,6 @@ public class ArbolBinarioBusqueda<K extends Comparable<K>, V> implements IArbolB
 
     /*15. Para un árbol binario de búsqueda implemente un método que reciba como parámetro
     otro árbol y que retorne verdadero si los arboles son similares, falso en caso contrario.*/
-
     public NodoBinario<K, V> getRaiz() {
         return this.raiz;
     }
@@ -805,7 +854,6 @@ public class ArbolBinarioBusqueda<K extends Comparable<K>, V> implements IArbolB
 
         //En este punto sé que al menos existe un nodo en ambos árboles, la raiz.
         //Verifico si los árboles tienen la misma estructura.
-
         Queue<NodoBinario<K, V>> colaDeNodos = new LinkedList<>();
         Queue<NodoBinario<K, V>> colaDeNodosDeUnArbol = new LinkedList<>();
 
@@ -816,38 +864,72 @@ public class ArbolBinarioBusqueda<K extends Comparable<K>, V> implements IArbolB
             NodoBinario<K, V> nodoActual = colaDeNodos.poll();
             NodoBinario<K, V> nodoActualDeUnArbol = colaDeNodosDeUnArbol.poll();
 
-                if (nodoActual.esVacioHijoIzquierdo() && !nodoActualDeUnArbol.esVacioHijoIzquierdo()
-                        || !nodoActual.esVacioHijoIzquierdo() && nodoActualDeUnArbol.esVacioHijoIzquierdo()) {
-                    return false;
-                }
+            if (nodoActual.esVacioHijoIzquierdo() && !nodoActualDeUnArbol.esVacioHijoIzquierdo()
+                    || !nodoActual.esVacioHijoIzquierdo() && nodoActualDeUnArbol.esVacioHijoIzquierdo()) {
+                return false;
+            }
 
-                if (nodoActual.esVacioHijoDerecho() && !nodoActualDeUnArbol.esVacioHijoDerecho()
-                        || !nodoActual.esVacioHijoDerecho() && nodoActualDeUnArbol.esVacioHijoDerecho()) {
-                    return false;
-                }
+            if (nodoActual.esVacioHijoDerecho() && !nodoActualDeUnArbol.esVacioHijoDerecho()
+                    || !nodoActual.esVacioHijoDerecho() && nodoActualDeUnArbol.esVacioHijoDerecho()) {
+                return false;
+            }
 
+            if (!nodoActual.esVacioHijoIzquierdo()) {
+                colaDeNodos.offer(nodoActual.getHijoIzquierdo());
+            }
 
-                if (!nodoActual.esVacioHijoIzquierdo()) {
-                    colaDeNodos.offer(nodoActual.getHijoIzquierdo());
-                }
+            if (!nodoActual.esVacioHijoDerecho()) {
+                colaDeNodos.offer(nodoActual.getHijoDerecho());
+            }
 
-                if (!nodoActual.esVacioHijoDerecho()) {
-                    colaDeNodos.offer(nodoActual.getHijoDerecho());
-                }
+            if (!nodoActualDeUnArbol.esVacioHijoIzquierdo()) {
+                colaDeNodosDeUnArbol.offer(nodoActualDeUnArbol.getHijoIzquierdo());
+            }
 
-                if (!nodoActualDeUnArbol.esVacioHijoIzquierdo()) {
-                    colaDeNodosDeUnArbol.offer(nodoActualDeUnArbol.getHijoIzquierdo());
-                }
-
-                if (!nodoActualDeUnArbol.esVacioHijoDerecho()) {
-                    colaDeNodosDeUnArbol.offer(nodoActualDeUnArbol.getHijoDerecho());
-                }
-
-
-
+            if (!nodoActualDeUnArbol.esVacioHijoDerecho()) {
+                colaDeNodosDeUnArbol.offer(nodoActualDeUnArbol.getHijoDerecho());
+            }
         }
         return true;
     }
+
+    public boolean esMonticulo() {
+        if (this.esArbolVacio()) {
+            return false;
+        }
+
+        return this.esMonticulo(this.raiz);
+    }
+
+    private boolean esMonticulo(NodoBinario<K, V> nodoActual) {
+        if (NodoBinario.esNodoVacio(nodoActual)) {
+            return true;
+        }
+
+        NodoBinario<K, V> hijoIzquierdo = nodoActual.getHijoIzquierdo();
+        NodoBinario<K, V> hijoDerecho = nodoActual.getHijoDerecho();
+
+        if (!nodoActual.esHoja()) {
+            if (!nodoActual.esVacioHijoIzquierdo()) {
+                if (nodoActual.getClave().compareTo(hijoIzquierdo.getClave()) > 0) {
+                    return false;
+                }
+            }
+
+            if (!nodoActual.esVacioHijoDerecho()) {
+                if (nodoActual.getClave().compareTo(hijoDerecho.getClave()) > 0) {
+                    return false;
+                }
+            }
+        }
+        if (!this.esMonticulo(nodoActual.getHijoIzquierdo())) {
+            return false;
+        }
+
+        if (!this.esMonticulo(nodoActual.getHijoDerecho())) {
+            return false;
+        }
+
+        return true;
+    }
 }
-
-
